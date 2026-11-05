@@ -1,0 +1,48 @@
+======================================================================
+UNIVERSIDAD NACIONAL EXPERIMENTAL DE GUAYANA (UNEG)
+LENGUAJES Y COMPILADORES - PERIODO LECTIVO 2026-II
+PRUEBA DIAGNOSTICA - EJERCICIO 2: POLINOMIO (x+1)^n Y TRIANGULO DE PASCAL
+Estudiante: Ana Orellana | Seccion: 01
+Grupo: Equipo de Compiladores 2026-II
+Eslogan: "Comprender el codigo, construir soluciones."
+======================================================================
+
+--- SALIDA DE EJECUCION EN C (Memoria Dinamica y BigInt) ---
+(x + 1)^4 = x^4 + 4x^3 + 6x^2 + 4x + 1
+
+--- EVALUACION PASO A PASO PARA x = 2.00 ---
+f(x) = (2.00 + 1)^4 = (3.00)^4
+  Termino grado  4: 1 * (2.00)^4 = 16.0000
+  Termino grado  3: 4 * (2.00)^3 = 32.0000
+  Termino grado  2: 6 * (2.00)^2 = 24.0000
+  Termino grado  1: 4 * (2.00)^1 = 8.0000
+  Termino grado  0: 1 * (2.00)^0 = 1.0000
+TOTAL f(2.00) = 81.000000
+
+=== MEDICION DE TIEMPO PARA n=100 (C) ===
+Coeficientes generados: 101 terminos.
+Primer termino (coef x^100): 1
+Termino central (coef x^50): 100891344545564193334812497256
+Ultimo termino (independiente): 1
+Tiempo de generacion en C (n=100): 0.002000 segundos
+
+
+--- SALIDA DE EJECUCION EN PYTHON ---
+(x + 1)^4 = x^4 + 4x^3 + 6x^2 + 4x + 1
+
+--- EVALUACION PASO A PASO PARA x = 2 (PYTHON) ---
+f(2) = (2 + 1)^4 = (3)^4
+  Termino grado  4: 1 * (2)^4 = 16
+  Termino grado  3: 4 * (2)^3 = 32
+  Termino grado  2: 6 * (2)^2 = 24
+  Termino grado  1: 4 * (2)^1 = 8
+  Termino grado  0: 1 * (2)^0 = 1
+Resultado f(2) = 81
+
+=== MEDICION DE TIEMPO PARA n=100 (PYTHON) ===
+Coeficientes generados: 101 terminos.
+Primer termino (coef x^100): 1
+Termino central (coef x^50): 100891344545564193334812497256
+Ultimo termino: 1
+Tiempo de generacion en Python (n=100): 0.00049310 segundos
+
