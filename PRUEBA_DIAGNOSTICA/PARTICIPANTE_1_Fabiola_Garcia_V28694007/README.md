@@ -77,24 +77,27 @@ específico si la letra no es `K`.
 | `python/test_caballo.py` | 11 pruebas unitarias (unittest) con los casos del enunciado |
 | `c/caballo.c` | Implementación en C (mismos modos, temporizador de alta resolución) |
 | `scripts/ejemplos.txt` | 13 casos de prueba (formato `inicial;movimientos;esperado`) |
-| `scripts/movimientos.txt` | **PLACEHOLDER**: 500 movimientos válidos (ver nota abajo) |
+| `scripts/movimientos.txt` | **Lista real del PDF**: 224 movimientos, inicio `a2` (ver nota abajo) |
 | `scripts/compilar_ejecutar.sh` | Compila, prueba y mide tiempos |
 | `resultados/tiempos_ejercicio1.txt` | Tiempos medidos (CSV) |
 
 **Notas y supuestos:**
 
-- **`movimientos.txt` es un placeholder.** Se generó una lista de **exactamente 500**
-  movimientos válidos (caminata aleatoria de caballo desde `a1`, semilla 2026) para poder
-  medir tiempos. **Debe reemplazarse por la lista real del PDF** manteniendo la primera
-  línea `inicial <casilla>` (o `inicial a1`) y las líneas de movimientos separadas por
-  espacios; las líneas que empiecen con `#` se ignoran. Si la lista nueva no tiene 500
-  movimientos, los programas emiten un `AVISO` por stderr y el CSV documenta la cantidad real.
+- **`movimientos.txt` contiene la lista real del PDF** (reemplazó al placeholder):
+  **224 movimientos** con posición inicial **`a2`**. Detalle importante: el primer
+  movimiento `Kb4` **no es salto legal desde `a1`** (desde a1 solo hay `Kb3`/`Kc2`);
+  la lista completa fue validada (224/224 correctos) desde `a2` (también es válida
+  desde `c2`, `a6`, `c6`, `d3` o `d5`; se usa `a2`). El enunciado original pedía una
+  lista de 500 movimientos: los programas emiten un `AVISO` por stderr cuando la lista
+  no tiene 500 y el CSV documenta la cantidad real (`n_movimientos=224`).
+  Formato del archivo: líneas `#` ignoradas, línea `inicial <casilla>`, movimientos
+  separados por espacios.
 - El primer movimiento se evalúa desde la posición inicial; cada movimiento posterior
   desde la casilla anterior.
 - Casillas inválidas, letras distintas de `K` y saltos no permitidos producen mensajes
   específicos; el reporte usa índice de movimiento basado en 1.
 
-**Tiempos medidos (10 verificaciones de 500 movimientos):** ver
+**Tiempos medidos (10 verificaciones de la lista real de 224 movimientos):** ver
 `resultados/tiempos_ejercicio1.txt` (formato `lenguaje,tiempo_segundos,n_movimientos,repeticiones`).
 
 ---

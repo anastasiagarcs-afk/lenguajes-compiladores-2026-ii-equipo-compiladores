@@ -54,7 +54,7 @@ echo "[3/5] Casos del enunciado en Python y en C..."
 $PY python/caballo.py pruebas scripts/ejemplos.txt
 ./c/caballo.exe pruebas scripts/ejemplos.txt
 
-echo "[4/5] Medicion de tiempos (10 verificaciones de 500 movimientos)..."
+echo "[4/5] Medicion de tiempos (10 verificaciones de la lista de movimientos)..."
 LINEA_PY=$($PY python/caballo.py tiempo scripts/movimientos.txt 10)
 LINEA_C=$(./c/caballo.exe tiempo scripts/movimientos.txt 10)
 echo "      Python: $LINEA_PY"
