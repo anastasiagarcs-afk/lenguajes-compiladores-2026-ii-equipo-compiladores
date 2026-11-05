@@ -1,0 +1,33 @@
+== Python ==
+== Demostracion n=5, x=2 ==
+Coeficientes de (x+1)^5:
+1, 5, 10, 10, 5, 1
+Polinomio (x+1)^5:
+x^5 + 5x^4 + 10x^3 + 10x^2 + 5x + 1
+
+Evaluacion paso a paso para x = 2:
+Paso 1: 1 * 2^5 = 32; acumulado = 32
+Paso 2: 5 * 2^4 = 80; acumulado = 112
+Paso 3: 10 * 2^3 = 80; acumulado = 192
+Paso 4: 10 * 2^2 = 40; acumulado = 232
+Paso 5: 5 * 2^1 = 10; acumulado = 242
+Paso 6: 1 * 1 = 1; acumulado = 243
+Suma acumulada: 243
+f(2) = 243
+
+== C ==
+== Demostracion n=5, x=2 ==
+Coeficientes de (x+1)^5:
+1, 5, 10, 10, 5, 1
+Polinomio (x+1)^5:
+x^5 + 5x^4 + 10x^3 + 10x^2 + 5x + 1
+
+Evaluacion paso a paso para x = 2:
+Paso 1: 1 * 2^5 = 32; acumulado = 32
+Paso 2: 5 * 2^4 = 80; acumulado = 112
+Paso 3: 10 * 2^3 = 80; acumulado = 192
+Paso 4: 10 * 2^2 = 40; acumulado = 232
+Paso 5: 5 * 2^1 = 10; acumulado = 242
+Paso 6: 1 * 1 = 1; acumulado = 243
+Suma acumulada: 243
+f(2) = 243

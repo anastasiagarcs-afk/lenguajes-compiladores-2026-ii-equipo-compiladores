@@ -1,0 +1,13 @@
+# Casos de prueba: inicial;movimientos;esperado
+# Las lineas que empiezan con # se ignoran.
+a1;Kc2 Kd4 Kb3 Kc5;movimiento CORRECTO
+a1;Kc2 Kd4 Kb4 Kc5;INCORRECTO falla en el movimiento 3
+a2;Kc3 Ke4 Kf6 Ke8 Kg7;movimiento CORRECTO
+a2;Kc8 Ke4 Kf6 Ke8 Kg7;INCORRECTO falla en el movimiento 1
+a8;Kb6 Kd7;movimiento CORRECTO
+a8;Kb6 Kb7;INCORRECTO falla en el movimiento 2
+a1;Kc2 Kd4 Kf3 Ke5 Kg6 Kh8 Kf7 Kd8 Kc6 Kb4;movimiento CORRECTO
+a1;Kc2 Kd4 Kf3 Ke5 Kg6 Kh8 Kf7 Kd8 Kc6 Qb4;movimiento INCORRECTO falla letra Q no pertenece a un caballo
+a1;Kc2 Kd4 Kf3 Ke5 Kg6 Kh8 Kf7 Kd8 Kh6 Kb4;INCORRECTO falla en el movimiento 9
+a1;Kz9;INCORRECTO falla en el movimiento 1
+a1;kc2;movimiento INCORRECTO falla letra k no pertenece a un caballo

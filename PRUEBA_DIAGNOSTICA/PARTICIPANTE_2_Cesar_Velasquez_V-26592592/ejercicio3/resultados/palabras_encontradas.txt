@@ -1,0 +1,118 @@
+typedef -> Tipo definido, linea 15, columna 1
+struct -> Estructura, linea 15, columna 9
+int -> Entero, linea 16, columna 5
+int -> Entero, linea 17, columna 5
+enum -> Enumeración, linea 20, columna 1
+static -> Estático, linea 22, columna 1
+_Thread_local -> Hilo local, linea 22, columna 8
+int -> Entero, linea 22, columna 22
+static -> Estático, linea 23, columna 1
+_Atomic -> Atómico, linea 23, columna 8
+int -> Entero, linea 23, columna 16
+_Alignas -> Alinear como, linea 25, columna 1
+static -> Estático, linea 25, columna 14
+char -> Carácter, linea 25, columna 21
+inline -> En línea, linea 27, columna 1
+static -> Estático, linea 27, columna 8
+int -> Entero, linea 27, columna 15
+int -> Entero, linea 27, columna 25
+int -> Entero, linea 27, columna 32
+return -> Retornar, linea 29, columna 5
+_Noreturn -> Sin retorno, linea 32, columna 1
+static -> Estático, linea 32, columna 11
+void -> Vacío, linea 32, columna 18
+void -> Vacío, linea 32, columna 32
+int -> Entero, linea 37, columna 1
+void -> Vacío, linea 37, columna 10
+register -> Registro, linea 39, columna 5
+int -> Entero, linea 39, columna 14
+const -> Constante, linea 40, columna 5
+int -> Entero, linea 40, columna 11
+unsigned -> Sin signo, linea 41, columna 5
+int -> Entero, linea 41, columna 14
+long -> Largo, linea 42, columna 5
+int -> Entero, linea 42, columna 10
+short -> Corto, linea 43, columna 5
+int -> Entero, linea 43, columna 11
+signed -> Con signo, linea 44, columna 5
+int -> Entero, linea 44, columna 12
+double -> Doble, linea 45, columna 5
+float -> Flotante, linea 46, columna 5
+char -> Carácter, linea 47, columna 5
+void -> Vacío, linea 48, columna 5
+enum -> Enumeración, linea 50, columna 5
+struct -> Estructura, linea 51, columna 5
+union -> Unión, linea 52, columna 5
+int -> Entero, linea 53, columna 9
+float -> Flotante, linea 54, columna 9
+typedef -> Tipo definido, linea 56, columna 5
+int -> Entero, linea 56, columna 13
+_Bool -> Booleano, linea 58, columna 5
+double -> Doble, linea 59, columna 5
+_Complex -> Complejo, linea 59, columna 12
+const -> Constante, linea 62, columna 5
+char -> Carácter, linea 62, columna 11
+_Static_assert -> Afirmación estática, linea 64, columna 5
+sizeof -> Tamaño de, linea 64, columna 20
+int -> Entero, linea 64, columna 27
+if -> Si, linea 66, columna 5
+while -> Mientras, linea 67, columna 9
+else -> Sino, linea 70, columna 7
+for -> Para, linea 74, columna 5
+switch -> Según, linea 75, columna 9
+case -> Caso, linea 76, columna 13
+continue -> Continuar, linea 77, columna 17
+case -> Caso, linea 78, columna 13
+break -> Romper, linea 79, columna 17
+default -> Defecto, linea 80, columna 13
+goto -> Ir a, linea 81, columna 17
+do -> Hacer, linea 86, columna 5
+while -> Mientras, linea 88, columna 7
+int -> Entero, linea 90, columna 5
+int -> Entero, linea 90, columna 23
+_Alignof -> Alineación de, linea 90, columna 27
+double -> Doble, linea 90, columna 36
+int -> Entero, linea 91, columna 5
+_Generic -> Genérico, linea 91, columna 19
+int -> Entero, linea 91, columna 31
+default -> Defecto, linea 91, columna 39
+void -> Vacío, linea 93, columna 6
+void -> Vacío, linea 94, columna 6
+void -> Vacío, linea 95, columna 6
+void -> Vacío, linea 96, columna 6
+void -> Vacío, linea 97, columna 6
+void -> Vacío, linea 98, columna 6
+void -> Vacío, linea 99, columna 6
+void -> Vacío, linea 100, columna 6
+void -> Vacío, linea 101, columna 6
+void -> Vacío, linea 102, columna 6
+void -> Vacío, linea 103, columna 6
+void -> Vacío, linea 104, columna 6
+void -> Vacío, linea 105, columna 6
+void -> Vacío, linea 106, columna 6
+void -> Vacío, linea 107, columna 6
+void -> Vacío, linea 108, columna 6
+void -> Vacío, linea 109, columna 6
+void -> Vacío, linea 110, columna 6
+return -> Retornar, linea 112, columna 5
+if -> Si, linea 115, columna 2
+extern -> Externo, linea 116, columna 1
+int -> Entero, linea 116, columna 8
+volatile -> Volátil, linea 117, columna 1
+int -> Entero, linea 117, columna 10
+auto -> Automático, linea 118, columna 1
+int -> Entero, linea 118, columna 6
+static -> Estático, linea 119, columna 1
+int -> Entero, linea 119, columna 8
+const -> Constante, linea 120, columna 1
+int -> Entero, linea 120, columna 7
+void -> Vacío, linea 122, columna 1
+void -> Vacío, linea 122, columna 27
+int -> Entero, linea 124, columna 5
+int -> Entero, linea 125, columna 5
+restrict -> Restringido, linea 125, columna 10
+_Imaginary -> Imaginario, linea 126, columna 5
+float -> Flotante, linea 126, columna 16
+sizeof -> Tamaño de, linea 128, columna 5
+void -> Vacío, linea 129, columna 6
+void -> Vacío, linea 130, columna 6
