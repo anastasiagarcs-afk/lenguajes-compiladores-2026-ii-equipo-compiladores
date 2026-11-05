@@ -20,7 +20,7 @@
 | # | Nombre | Cédula | Sección | Rol | Usuario de GitHub |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Fabiola García | V28694007 | 1 | **Líder** (Participante 1) | [`anastasiagarcs-afk`](https://github.com/anastasiagarcs-afk) |
-| 2 | Cesar Velasquez | V-26592592 | 3 | Participante 2 | `<!-- PENDIENTE: usuario de GitHub -->` |
+| 2 | Cesar Velasquez | V-26592592 | 3 | Participante 2 | [`Bboyjoker15`](https://github.com/Bboyjoker15) |
 | 3 | Ana Orellana | V-27902332 | 1 | Participante 3 | `<!-- PENDIENTE: usuario de GitHub -->` |
 | 4 | Elianny Avila | V-31963299 | 3 | Participante 4 | `<!-- PENDIENTE: usuario de GitHub -->` |
 
@@ -123,7 +123,7 @@ Se permite usar asistentes de IA para apoyar el desarrollo. Sin embargo:
 
 ## Placeholders pendientes por completar
 
-- [ ] Usuario de GitHub del Participante 2 (Cesar Velasquez)
+- [x] Usuario de GitHub del Participante 2 (Cesar Velasquez) — Bboyjoker15
 - [ ] Usuario de GitHub del Participante 3 (Ana Orellana)
 - [ ] Usuario de GitHub del Participante 4 (Elianny Avila)
 - [ ] Enlace de Drive del video de defensa — Participante 1 (`PRUEBA_DIAGNOSTICA/.../enlace_drive.txt`)
