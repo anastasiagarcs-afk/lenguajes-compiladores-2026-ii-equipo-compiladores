@@ -1,0 +1,44 @@
+======================================================================
+UNIVERSIDAD NACIONAL EXPERIMENTAL DE GUAYANA (UNEG)
+LENGUAJES Y COMPILADORES - PERIODO LECTIVO 2026-II
+PRUEBA DIAGNOSTICA - EJERCICIO 3: TRADUCTOR DE PALABRAS RESERVADAS DE C
+Estudiante: Ana Orellana | Seccion: 01
+Grupo: Equipo de Compiladores 2026-II
+Eslogan: "Comprender el codigo, construir soluciones."
+======================================================================
+
+--- SALIDA DE EJECUCION EN C (Memoria Dinamica) ---
+Archivo cargado: 571 bytes
+
+#include <stdio.h>
+
+entero main() {
+    entero contador = 0;
+    flotante promedio = 0.0;
+    caracter letra = 'a';
+
+    // Comentario: if (contador == 0) return 1;
+    /* Bloque de comentario
+       while (contador < 10) continue;
+    */
+    para (entero i = 0; i < 5; i++) {
+        si (i % 2 == 0) {
+            contador += i;
+        } sino {
+            contador--;
+        }
+    }
+
+    segun (contador) {
+        caso 0:
+            printf("Cero\n");
+            romper;
+        defecto:
+            printf("Distinto de cero\n");
+    }
+
+    retornar 0;
+}
+
+Tiempo de ejecucion en C (n=100 iteraciones): 0.001000 segundos
+
