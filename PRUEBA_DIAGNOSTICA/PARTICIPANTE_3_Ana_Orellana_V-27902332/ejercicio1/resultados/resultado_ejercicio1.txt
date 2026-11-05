@@ -1,0 +1,26 @@
+=== SALIDA DE EJECUCION EN C ===
+Test 1: movimiento CORRECTO.
+Test 2: INCORRECTO falla en el movimiento 3.
+Test 3: movimiento CORRECTO.
+Test 4: movimiento INCORRECTO: falla letra F no pertenece a un caballo en el movimiento 1.
+Test 5: movimiento CORRECTO.
+Test 6: INCORRECTO falla en el movimiento 2.
+Test 7: movimiento INCORRECTO: falla letra Q no pertenece a un caballo en el movimiento 10.
+Test 8: INCORRECTO falla en el movimiento 9.
+
+Resultado 500 movimientos: movimiento CORRECTO.
+Tiempo total (10 verificaciones en C): 0.000000 segundos
+
+
+--- SALIDA DE EJECUCION EN PYTHON ---
+Ak=a1 | C=Kc2 Kd4 Kb3 Kc5... -> movimiento CORRECTO.
+Ak=a1 | C=Kc2 Kd4 Kb4 Kc5... -> INCORRECTO falla en el movimiento 3.
+Ak=a2 | C=Kc3 Ke4 Kf6 Ke8 Kg7... -> movimiento CORRECTO.
+Ak=a2 | C=F Kc8 Ke4 Kf6 Ke8 Kg7... -> movimiento INCORRECTO: falla letra F no pertenece a un caballo en el movimiento 1.
+Ak=a8 | C=Kb6 Kd7... -> movimiento CORRECTO.
+Ak=a8 | C=Kb6 Kb7... -> INCORRECTO falla en el movimiento 2.
+Ak=a1 | C=Kc2 Kd4 Kf3 Ke5 Kg6 Kh8 K... -> movimiento INCORRECTO: falla letra Q no pertenece a un caballo en el movimiento 10.
+Ak=a1 | C=Kc2 Kd4 Kf3 Ke5 Kg6 Kh8 K... -> INCORRECTO falla en el movimiento 9.
+
+Resultado 500 movimientos: movimiento CORRECTO.
+Tiempo total (10 verificaciones en Python): 0.001450 segundos
