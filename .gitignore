@@ -1,0 +1,47 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+
+# --- C / compilación ---
+*.o
+*.obj
+*.exe
+a.out
+*.out
+
+# --- Node ---
+node_modules/
+
+# --- Credenciales y entorno ---
+.env
+.env.*
+*.token
+
+# --- Sistema ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Comprimidos y videos pesados ---
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# --- Archivos de prompt de IA: NUNCA se suben ---
+prompt_*.txt
+*.prompt.txt
+Actúa como un*.txt
+*asistente técnico*.txt
+*asistente.txt
+*Prompt*.txt
+*prompt*.txt
