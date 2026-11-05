@@ -124,7 +124,7 @@ Se permite usar asistentes de IA para apoyar el desarrollo. Sin embargo:
 ## Placeholders pendientes por completar
 
 - [x] Usuario de GitHub del Participante 2 (Cesar Velasquez) — Bboyjoker15
-- [ ] Usuario de GitHub del Participante 3 (Ana Orellana)
+- [x] Usuario de GitHub del Participante 3 (Ana Orellana)
 - [ ] Usuario de GitHub del Participante 4 (Elianny Avila)
 - [ ] Enlace de Drive del video de defensa — Participante 1 (`PRUEBA_DIAGNOSTICA/.../enlace_drive.txt`)
 - [ ] Enlace de Drive del video de defensa — Participante 2
