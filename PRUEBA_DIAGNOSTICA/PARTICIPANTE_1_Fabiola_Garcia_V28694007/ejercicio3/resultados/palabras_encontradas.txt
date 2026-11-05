@@ -1,0 +1,37 @@
+# Reporte del analizador de palabras reservadas (Ejercicio 3)
+# Entrada: c/programa.c - generado por analizador.py y analizador.c
+# Formato: palabra_original -> Traduccion, linea N, columna M
+struct -> Estructura, linea 16, columna 1
+int -> Entero, linea 17, columna 5
+int -> Entero, linea 18, columna 5
+double -> Doble, linea 23, columna 1
+char -> Caracter, linea 23, columna 23
+int -> Entero, linea 24, columna 5
+double -> Doble, linea 25, columna 5
+while -> Mientras, linea 26, columna 5
+double -> Doble, linea 27, columna 24
+return -> Retornar, linea 30, columna 5
+void -> Vacio, linea 33, columna 1
+char -> Caracter, linea 33, columna 14
+float -> Flotante, linea 33, columna 29
+int -> Entero, linea 37, columna 1
+void -> Vacio, linea 37, columna 10
+struct -> Estructura, linea 38, columna 5
+char -> Caracter, linea 39, columna 5
+float -> Flotante, linea 40, columna 5
+double -> Doble, linea 41, columna 5
+int -> Entero, linea 42, columna 5
+if -> Si, linea 47, columna 5
+for -> Para, linea 48, columna 9
+else -> Sino, linea 51, columna 7
+switch -> Segun, linea 55, columna 5
+case -> Caso, linea 56, columna 9
+break -> Romper, linea 58, columna 13
+case -> Caso, linea 59, columna 9
+break -> Romper, linea 60, columna 13
+default -> Defecto, linea 61, columna 9
+break -> Romper, linea 62, columna 13
+while -> Mientras, linea 65, columna 5
+if -> Si, linea 66, columna 9
+continue -> Continuar, linea 68, columna 13
+return -> Retornar, linea 74, columna 5

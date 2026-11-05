@@ -1,0 +1,3 @@
+lenguaje,tiempo_segundos,n
+python,0.000535,100
+c,0.000480,100

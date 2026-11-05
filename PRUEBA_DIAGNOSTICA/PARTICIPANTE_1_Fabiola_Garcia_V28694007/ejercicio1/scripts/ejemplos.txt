@@ -1,0 +1,18 @@
+# Casos de prueba del Ejercicio 1 - Caballo de ajedrez
+# Formato: inicial;movimientos;esperado (el campo "esperado" es una
+# subcadena que debe aparecer en el mensaje de salida).
+# Los primeros casos corresponden al ejemplo del enunciado (PDF).
+
+a1;Kc2 Kd4 Kb3 Kc5;movimiento CORRECTO
+a1;Kb3;movimiento CORRECTO
+h8;Kf7 Kd6;movimiento CORRECTO
+a1;Kc2 Kd4 Kb3 Kc5 Kd7;movimiento CORRECTO
+a1;Be2;no pertenece a un caballo
+a1;Kc2 Rd4;no pertenece a un caballo
+a1;Kh9;casilla invalida
+a1;Kj2;casilla invalida
+a1;Kc3;INCORRECTO falla en el movimiento 1
+a1;Kc2 Kc4;INCORRECTO falla en el movimiento 2
+a1;Kc2 Kd4 Kb3 Ka3;INCORRECTO falla en el movimiento 4
+z9;Kc2;posicion inicial invalida
+a0;Kc2;posicion inicial invalida

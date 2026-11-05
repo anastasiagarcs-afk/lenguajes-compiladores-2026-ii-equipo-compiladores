@@ -1,0 +1,25 @@
+=== Python ===
+(x+1)^5 = 1*x^5 + 5*x^4 + 10*x^3 + 10*x^2 + 5*x^1 + 1*x^0
+
+Calculo paso a paso de f(2) = (2+1)^5 con los coeficientes generados:
+  paso 1: C(5,0)*2^0 = 1*1 = 1   acumulado = 1
+  paso 2: C(5,1)*2^1 = 5*2 = 10   acumulado = 11
+  paso 3: C(5,2)*2^2 = 10*4 = 40   acumulado = 51
+  paso 4: C(5,3)*2^3 = 10*8 = 80   acumulado = 131
+  paso 5: C(5,4)*2^4 = 5*16 = 80   acumulado = 211
+  paso 6: C(5,5)*2^5 = 1*32 = 32   acumulado = 243
+f(2) = 243
+Verificacion: (2+1)^5 = 243
+
+=== C ===
+(x+1)^5 = 1*x^5 + 5*x^4 + 10*x^3 + 10*x^2 + 5*x^1 + 1*x^0
+
+Calculo paso a paso de f(2) = (2+1)^5 con los coeficientes generados:
+  paso 1: C(5,0)*2^0 = 1*1 = 1   acumulado = 1
+  paso 2: C(5,1)*2^1 = 5*2 = 10   acumulado = 11
+  paso 3: C(5,2)*2^2 = 10*4 = 40   acumulado = 51
+  paso 4: C(5,3)*2^3 = 10*8 = 80   acumulado = 131
+  paso 5: C(5,4)*2^4 = 5*16 = 80   acumulado = 211
+  paso 6: C(5,5)*2^5 = 1*32 = 32   acumulado = 243
+f(2) = 243
+Verificacion: (2+1)^5 = 243
