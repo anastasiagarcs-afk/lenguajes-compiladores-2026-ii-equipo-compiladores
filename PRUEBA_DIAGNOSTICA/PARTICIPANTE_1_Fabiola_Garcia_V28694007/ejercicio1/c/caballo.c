@@ -43,27 +43,53 @@ static double ahora(void)
 }
 #endif
 
-/* Devuelve 1 si la casilla es valida; recibe columnas 0-7 y filas 0-7. */
+/*
+ * Convierte una casilla de ajedrez ("a1".."h8") a coordenadas numéricas.
+ * Columna 'a'..'h' -> 0..7; fila '1'..'8' -> 0..7 (restamos '1').
+ * Devuelve 1 si la casilla es válida y 0 en caso contrario (el llamador
+ * usa esto para reportar "casilla invalida").
+ */
 static int parsear_casilla(const char *s, int *col, int *fil)
 {
     char c;
-    if (strlen(s) != 2) {
+    if (strlen(s) != 2) {          /* debe tener exactamente 2 caracteres */
         return 0;
     }
     c = (char)tolower((unsigned char)s[0]);
-    if (c < 'a' || c > 'h') {
+    if (c < 'a' || c > 'h') {      /* columna fuera del tablero (ej. 'j') */
         return 0;
     }
-    if (s[1] < '1' || s[1] > '8') {
+    if (s[1] < '1' || s[1] > '8') { /* fila fuera del tablero (ej. '9') */
         return 0;
     }
-    *col = c - 'a';
-    *fil = s[1] - '1';
+    *col = c - 'a';                /* 'a'->0, 'b'->1, ... 'h'->7 */
+    *fil = s[1] - '1';             /* '1'->0, '2'->1, ... '8'->7 */
     return 1;
 }
 
-/* Valida la cadena de movimientos. Devuelve 1 si es correcta.
- * El mensaje de resultado se escribe en msg. */
+/*
+ * Valida la cadena completa de movimientos contra la posición inicial.
+ *
+ * Reglas aplicadas a cada movimiento (en orden, deteniéndonos en la 1.ª
+ * falla, con índice 1-based como pide el enunciado):
+ *
+ *   1) LETRA: el token debe empezar con 'K'. Si empieza con otra letra
+ *      (ej. "Rd4"), la pieza no es un caballo -> mensaje específico.
+ *
+ *   2) CASILLA: lo que sigue a la 'K' debe ser una casilla válida
+ *      (columna a-h, fila 1-8), por ejemplo "Kc2" -> "c2".
+ *
+ *   3) SALTO DE CABALLO: el desplazamiento debe ser 2+1 o 1+2 en
+ *      valor absoluto (el caballo mueve en "L"). Comparamos las dos
+ *      combinaciones posibles con OR. Usamos |dx| y |dy| porque la
+ *      dirección (arriba/abajo/izq/der) no importa, solo la magnitud.
+ *
+ *   4) Tras cada salto válido, la posición ACTUAL se actualiza: el
+ *      siguiente movimiento se mide desde donde cayó el caballo.
+ *
+ * Devuelve 1 si toda la secuencia es correcta, 0 si falla; el mensaje
+ * de resultado queda en msg.
+ */
 static int validar(const char *inicial, const char *cadena_movs,
                    char *msg, size_t sz)
 {
@@ -75,6 +101,9 @@ static int validar(const char *inicial, const char *cadena_movs,
         return 0;
     }
 
+    /* strtok MODIFICA la cadena que recibe, así que trabajamos sobre
+     * una copia en memoria dinámica (malloc) para no alterar el
+     * argumento original. Al terminar, libramos con free(). */
     copia = (char *)malloc(strlen(cadena_movs) + 1);
     if (copia == NULL) {
         snprintf(msg, sz, "ERROR: memoria insuficiente");
@@ -82,11 +111,12 @@ static int validar(const char *inicial, const char *cadena_movs,
     }
     strcpy(copia, cadena_movs);
 
-    i = 0;
+    i = 0; /* contador de movimiento: empieza en 1 con el primer strtok */
     for (tok = strtok(copia, " \t\r\n"); tok != NULL;
          tok = strtok(NULL, " \t\r\n")) {
         int dcol, dfil;
         i++;
+        /* Regla 1: ¿es caballo? (la letra debe ser exactamente 'K') */
         if (tok[0] != 'K') {
             snprintf(msg, sz,
                      "INCORRECTO la letra '%c' del movimiento %d "
@@ -95,27 +125,31 @@ static int validar(const char *inicial, const char *cadena_movs,
             free(copia);
             return 0;
         }
+        /* Regla 2: ¿la casilla destino existe en el tablero? */
         if (!parsear_casilla(tok + 1, &dcol, &dfil)) {
             snprintf(msg, sz, "INCORRECTO casilla invalida en el movimiento %d: '%s'",
                      i, tok);
             free(copia);
             return 0;
         }
+        /* Regla 3: ¿el desplazamiento es un salto de caballo (L)? */
         {
             int dx = dcol - col;
             int dy = dfil - fil;
-            if (dx < 0) dx = -dx;
-            if (dy < 0) dy = -dy;
+            if (dx < 0) dx = -dx;   /* valor absoluto manual: la */
+            if (dy < 0) dy = -dy;   /* dirección no importa */
+            /* (|dx|,|dy|) debe ser (2,1) o (1,2); nada más vale. */
             if (!((dx == 2 && dy == 1) || (dx == 1 && dy == 2))) {
                 snprintf(msg, sz, "INCORRECTO falla en el movimiento %d", i);
                 free(copia);
                 return 0;
             }
         }
+        /* Regla 4: el caballo "vive" en el destino para el próximo salto */
         col = dcol;
         fil = dfil;
     }
-    free(copia);
+    free(copia); /* liberamos la copia: sin fugas de memoria (malloc/free) */
     snprintf(msg, sz, "movimiento CORRECTO");
     return 1;
 }

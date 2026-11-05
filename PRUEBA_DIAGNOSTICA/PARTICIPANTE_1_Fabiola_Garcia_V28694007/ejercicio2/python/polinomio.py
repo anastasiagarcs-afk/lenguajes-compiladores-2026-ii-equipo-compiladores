@@ -21,15 +21,35 @@ import time
 def pascal(n):
     """Devuelve la fila n del triangulo de Pascal: [C(n,0), ..., C(n,n)].
 
-    Cada fila se construye a partir de la anterior con listas dinamicas
-    (append), equivalente a malloc/realloc en C.
+    Equivalente en Python a la memoria dinámica en C:
+    - Las listas de Python crecen y encogen solas (como realloc): aquí
+      `nueva = [1]` crea una lista VACÍA con un 1 y `append` va
+      agregando los coeficientes calculados. Cada append puede reservar
+      más espacio interno: eso es "memoria dinámica" sin pedirla a mano.
+    - La fila anterior (`fila`) se descarta en cada iteración; Python la
+      libera automáticamente con la recolección de basura (equivalente
+      al `free()` manual que hacemos en C).
+
+    Identidad central del triángulo de Pascal (por qué este cálculo
+    genera exactamente los coeficientes de (x+1)^n):
+
+        C(k, i) = C(k-1, i-1) + C(k-1, i)
+
+    Es decir, cada número es la suma de los dos que tiene encima.
+    Empezamos con la fila 0 = [1] y por eso el primer y último elemento
+    de cada fila nueva son 1 (los "bordes" del triángulo).
+
+    Para n=100 obtenemos 101 coeficientes; el mayor es C(100,50),
+    un número de 29 dígitos. En Python los enteros son de precisión
+    arbitraria, así que no hay problema; en C sí lo es (ver polinomio.c).
     """
     fila = [1]  # fila 0: C(0,0) = 1
     for k in range(1, n + 1):
-        nueva = [1]                     # C(k,0) = 1
+        nueva = [1]                     # C(k,0) = 1 (borde izquierdo)
         for i in range(1, k):
-            nueva.append(fila[i - 1] + fila[i])  # C(k,i) = C(k-1,i-1) + C(k-1,i)
-        nueva.append(1)                 # C(k,k) = 1
+            # C(k,i) = C(k-1,i-1) + C(k-1,i): suma de los dos de arriba
+            nueva.append(fila[i - 1] + fila[i])
+        nueva.append(1)                 # C(k,k) = 1 (borde derecho)
         fila = nueva                    # la fila anterior se libera (colecta de basura)
     return fila
 

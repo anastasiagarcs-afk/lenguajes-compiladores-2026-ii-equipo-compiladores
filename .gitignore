@@ -45,3 +45,8 @@ Actúa como un*.txt
 *asistente.txt
 *Prompt*.txt
 *prompt*.txt
+
+# --- VS Code: se comparte solo la config de IntelliSense para MSYS2 ---
+.vscode/*
+!.vscode/c_cpp_properties.json
+

@@ -19,7 +19,18 @@ COLUMNAS = "abcdefgh"
 
 
 def parsear_casilla(txt):
-    """Devuelve (columna, fila) 0-based o None si la casilla es invalida."""
+    """Devuelve (columna, fila) 0-based o None si la casilla es invalida.
+
+    Conversión de notación de ajedrez a coordenadas numéricas:
+      - La columna 'a'..'h' se convierte al índice 0..7 con COLUMNAS.index().
+        Ejemplo: 'c' -> 2 (contamos desde 0, no desde 1).
+      - La fila '1'..'8' se convierte a 0..7 restando 1.
+        Ejemplo: fila '4' -> 3.
+      - 'a1' queda como (0, 0) y 'h8' como (7, 7): el origen (0,0)
+        está abajo a la izquierda.
+    Devolvemos None cuando la casilla no existe (columna fuera de a-h o
+    fila fuera de 1-8), para que el llamador pueda reportar el error.
+    """
     if len(txt) != 2:
         return None
     col, fil = txt[0].lower(), txt[1]
@@ -29,24 +40,55 @@ def parsear_casilla(txt):
 
 
 def validar(inicial, movimientos):
-    """Valida la secuencia. Devuelve (es_correcto, mensaje)."""
+    """Valida la secuencia. Devuelve (es_correcto, mensaje).
+
+    Reglas del enunciado, aplicadas en orden para CADA movimiento:
+      1) La cadena debe empezar con 'K' (las piezas de ajedrez se
+         escriben con su inicial en mayúscula: K=King, pero aquí 'K'
+         significa KNIGHT/caballo en el formato del ejercicio).
+         Si la letra no es 'K', detenemos TODO y avisamos que la letra
+         no pertenece a un caballo (aunque el resto sea válido).
+      2) El destino debe ser una casilla real del tablero (a-h, 1-8).
+      3) El salto debe ser de caballo: |dx| y |dy| deben ser
+         EXACTAMENTE (2,1) o (1,2). El caballo mueve en "L": 2 casillas
+         en una dirección y 1 en la perpendicular. Por eso comparamos
+         las dos combinaciones posibles con OR (no con AND):
+             (dx==2 and dy==1) OR (dx==1 and dy==2)
+         Usamos valores absolutos (abs) porque el caballo puede saltar
+         hacia arriba/abajo/izquierda/derecha: la dirección no importa,
+         solo la magnitud de cada desplazamiento.
+      4) La posición se ACTUALIZA tras cada salto: el siguiente movimiento
+         se mide desde donde cayó el caballo, no desde el inicio.
+    Nos detenemos en el PRIMER error (índice 1-based, como pide el
+    enunciado: "falla en el movimiento X").
+    """
     pos = parsear_casilla(inicial)
     if pos is None:
         return False, "INCORRECTO posicion inicial invalida: '%s'" % inicial
     for i, mov in enumerate(movimientos, start=1):
+        # --- Regla 1: la letra inicial debe ser 'K' (caballo) ---
         if not mov or mov[0] != "K":
             letra = mov[0] if mov else "?"
             return False, ("INCORRECTO la letra '%s' del movimiento %d "
                            "no pertenece a un caballo" % (letra, i))
+        # --- Regla 2: la casilla destino debe existir en el tablero ---
+        # mov[1:] es todo lo que sigue a la 'K' (ej. "Kc2" -> "c2")
         destino = parsear_casilla(mov[1:])
         if destino is None:
             return False, ("INCORRECTO casilla invalida en el movimiento %d: '%s'"
                            % (i, mov))
+        # --- Regla 3: el desplazamiento debe ser un salto de caballo ---
+        # dx = variación en columnas (eje horizontal)
+        # dy = variación en filas (eje vertical)
         dx = abs(destino[0] - pos[0])
         dy = abs(destino[1] - pos[1])
+        # Salto en "L": 2+1 o 1+2. Cualquier otra combinación
+        # (0+2, 1+1, 3+1, ...) NO es movimiento de caballo.
         if not ((dx == 2 and dy == 1) or (dx == 1 and dy == 2)):
             return False, "INCORRECTO falla en el movimiento %d" % i
+        # --- Regla 4: el caballo queda en el destino para el próximo salto ---
         pos = destino
+    # Si llegamos aquí, todos los movimientos pasaron las 4 reglas.
     return True, "movimiento CORRECTO"
 
 

@@ -40,19 +40,51 @@ static double ahora(void)
 }
 #endif
 
-/* Entero sin signo de precision arbitraria en base 10 (little endian). */
+/*
+ * ===========================================================================
+ *  POR QUE MEMORIA DINAMICA (malloc/free) Y POR QUE PRECISION ARBITRARIA?
+ * ===========================================================================
+ *  El enunciado pide calcular los coeficientes de (x+1)^n con memoria
+ *  dinamica. Para n=100 hay DOS motivos por los que no sirve un arreglo
+ *  fijo de enteros normales:
+ *
+ *  1) CANTIDAD: la fila n tiene n+1 coeficientes. Si n cambia (10, 100,
+ *     5000...) no podemos declarar siempre el mismo tamano de arreglo;
+ *     necesitamos pedir la memoria exacta con malloc() y liberarla con
+ *     free() al terminar. Eso es "memoria dinamica".
+ *
+ *  2) TAMANO de cada coeficiente: C(100,50) = 100891344545564193334812497256
+ *     (29 digitos). Un unsigned long long llega como maximo a ~1.8e19
+ *     (20 digitos): DESBORDARIA. Por eso implementamos un entero de
+ *     precision arbitraria como arreglo de digitos decimales.
+ *
+ *  REPRESENTACION DEL BigInt (little endian, base 10):
+ *      dig[0] = unidades, dig[1] = decenas, ..., dig[len-1] = mayor.
+ *      Ejemplo: 4950 -> dig = [0, 5, 9, 4], len = 4.
+ *  Base 10 (y no base 2^32) para que convertir a texto al imprimir sea
+ *  trivial: cada digito ya es un digito decimal.
+ * ===========================================================================
+ */
+
+/* Entero sin signo de precision arbitraria en base 10 (little endian).
+ * Es una ESTRUCTURA que envuelve al arreglo dinamico: guardamos la
+ * capacidad (cap) para saber cuanto podemos crecer sin volver a pedir
+ * memoria, y la longitud real (len) con la que trabajamos. */
 typedef struct {
-    unsigned char *dig; /* dig[0] = unidades */
-    int len;
-    int cap;
+    unsigned char *dig; /* digitos en base 10: dig[0] = unidades */
+    int len;            /* cuantos digitos tiene el numero ahora */
+    int cap;            /* cuanto espacio reservamos con malloc/realloc */
 } BigInt;
 
+/* Si malloc falla (no hay RAM), abortamos con un mensaje claro. */
 static void fallo_memoria(void)
 {
     fprintf(stderr, "ERROR: memoria insuficiente (malloc/realloc)\n");
     exit(1);
 }
 
+/* Reserva inicial del arreglo de digitos: 8 posiciones (cap=8, len=0).
+ * Equivale a "declarar un arreglo pequeno" pero en el heap (malloc). */
 static void bi_init(BigInt *b)
 {
     b->cap = 8;
@@ -63,13 +95,20 @@ static void bi_init(BigInt *b)
     }
 }
 
+/*
+ * Amplia el arreglo si no cabe lo que necesitamos: esto es REALLOC,
+ * el corazon de la memoria dinamica. Solo se pide memoria nueva cuando
+ * se necesita (doblemos la capacidad vieja para no pedir cada vez).
+ * Si realloc devuelve NULL, el arreglo viejo sigue valido: por eso se
+ * asigna el resultado directamente sobre el puntero y se verifica.
+ */
 static void bi_reserve(BigInt *b, int n)
 {
     if (n <= b->cap) {
-        return;
+        return; /* aun cabe: no tocamos la memoria */
     }
     while (b->cap < n) {
-        b->cap *= 2;
+        b->cap *= 2; /* crecemos en potencias de 2: menos llamadas */
     }
     b->dig = (unsigned char *)realloc(b->dig, (size_t)b->cap);
     if (b->dig == NULL) {
@@ -77,6 +116,13 @@ static void bi_reserve(BigInt *b, int n)
     }
 }
 
+/*
+ * Asigna un valor pequeno (cabe en 64 bits) al BigInt dividiendolo
+ * entre 10 sucesivamente: cada resto es un digito.
+ *   4950 -> resto 0, luego 5, luego 9, luego 4  =>  dig = [0,5,9,4]
+ * Es la misma idea que convertir un numero a string, pero guardamos
+ * los digitos como bytes numericos, no como caracteres.
+ */
 static void bi_set_u64(BigInt *b, unsigned long long v)
 {
     b->len = 0;
@@ -93,32 +139,60 @@ static void bi_set_u64(BigInt *b, unsigned long long v)
     }
 }
 
-/* a += b (b puede ser distinto de a; se usa siempre desde Pascal). */
+/*
+ * ===========================================================================
+ *  SUMA DIGITO POR DIGITO (la operacion clave de todo el ejercicio)
+ * ===========================================================================
+ *  a += b  (igual que sumar a mano, de derecha a izquierda):
+ *
+ *      4950                    (a)
+ *    +  617                    (b)
+ *    -----
+ *      5567
+ *
+ *  Recorremos posicion por posicion (unidades con unidades, decenas con
+ *  decenas...). En cada una: d = acarreo + digito de a + digito de b.
+ *  - El RESULTADO de esa columna es d % 10 (solo el digito de la columna).
+ *  - El ACARREO para la siguiente columna es d / 10 (lo que "sobra").
+ *  Ejemplo de columna: 9 + 7 = 16 -> escribimos 6 y acarreamos 1.
+ *
+ *  Si un numero tiene mas digitos que el otro (len distinto), las
+ *  posiciones que no existen se tratan como 0 (los `if (i < len)`).
+ *  Al final puede quedar acarreo pendiente: se agrega como digito extra
+ *  y se recortan ceros a la izquierda (len) para no guardar basura.
+ *
+ *  El triangulo de Pascal solo necesita SUMAS (C(k,i)=C(k-1,i-1)+
+ *  C(k-1,i)), asi que esta funcion es todo lo que hace falta para
+ *  generar coeficientes gigantes sin desbordar.
+ * ===========================================================================
+ */
 static void bi_add(BigInt *a, const BigInt *b)
 {
-    int n = (a->len > b->len) ? a->len : b->len;
-    int i, carry = 0;
-    bi_reserve(a, n + 1);
+    int n = (a->len > b->len) ? a->len : b->len; /* columnas a recorrer */
+    int i, carry = 0; /* acarreo: empieza en 0, como al sumar a mano */
+    bi_reserve(a, n + 1); /* por si el acarreo crea un digito nuevo */
     for (i = 0; i < n; i++) {
         int d = carry;
         if (i < a->len) {
-            d += a->dig[i];
+            d += a->dig[i]; /* digito de a en esta columna */
         }
         if (i < b->len) {
-            d += b->dig[i];
+            d += b->dig[i]; /* digito de b en esta columna */
         }
-        a->dig[i] = (unsigned char)(d % 10);
-        carry = d / 10;
+        a->dig[i] = (unsigned char)(d % 10); /* me quedo con la columna */
+        carry = d / 10;                      /* paso el sobrante arriba */
     }
     if (carry > 0) {
-        a->dig[i++] = (unsigned char)carry;
+        a->dig[i++] = (unsigned char)carry; /* acarreo final (ej. 999+1) */
     }
     a->len = i;
     while (a->len > 1 && a->dig[a->len - 1] == 0) {
-        a->len--;
+        a->len--; /* recorto ceros insignificantes a la izquierda */
     }
 }
 
+/* Escribe el BigInt como texto: de la posicion len-1 a 0 (el arreglo
+ * esta invertido: las unidades van primero por eficiencia). */
 static void bi_print(FILE *out, const BigInt *b)
 {
     int i;
@@ -127,14 +201,16 @@ static void bi_print(FILE *out, const BigInt *b)
     }
 }
 
-/* Conversion a 64 bits sin signo; devuelve 0 si desborda. */
+/* Convierte a unsigned long long con verificacion de desbordamiento.
+ * Devuelve 0 si el numero no cabe en 64 bits (para el paso a paso,
+ * que solo demostramos con valores pequenos como n=5). */
 static int bi_to_u64(const BigInt *b, unsigned long long *out)
 {
     unsigned long long v = 0;
     int i;
     for (i = b->len - 1; i >= 0; i--) {
         if (v > (ULLONG_MAX - b->dig[i]) / 10ULL) {
-            return 0;
+            return 0; /* desbordaria */
         }
         v = v * 10ULL + b->dig[i];
     }
@@ -142,10 +218,17 @@ static int bi_to_u64(const BigInt *b, unsigned long long *out)
     return 1;
 }
 
+/*
+ * LIBERAR MEMORIA: cada BigInt que creamos con malloc debe devolverse
+ * con free() al terminar, o habra fugas de memoria (memory leaks).
+ * Primero libramos los digitos (dig) de cada elemento y despues el
+ * arreglo de estructuras en si. Este par malloc...free es lo que el
+ * profesor busca ver en la defensa.
+ */
 static void bi_free(BigInt *b)
 {
-    free(b->dig);
-    b->dig = NULL;
+    free(b->dig);   /* libero los digitos (heap) */
+    b->dig = NULL;  /* apunto a NULL por seguridad (evita doble free) */
     b->len = 0;
     b->cap = 0;
 }
@@ -153,7 +236,20 @@ static void bi_free(BigInt *b)
 /*
  * Genera la fila n del triangulo de Pascal en *fila (arreglo de n+1 BigInt
  * ya inicializados). Devuelve la longitud utilizada.
- * Dos arreglos dinamicos (prev/cur) se alternan como en el enunciado.
+ *
+ * Como funciona (y por que es memoria dinamica):
+ *  - Usamos DOS arreglos grandes creados con calloc() (prev = fila k-1,
+ *    cur = fila k): solo necesitamos la fila anterior, no toda la matriz.
+ *    calloc = malloc que ademas pone todo en cero.
+ *  - Identidad de Pascal: cur[i] = prev[i-1] + prev[i]  (suma de los dos
+ *    "de arriba"), con bordes cur[0] = cur[k] = 1. Cada suma se hace con
+ *    bi_add (digito por digito) sobre BigInts de precision arbitraria.
+ *  - Al terminar cada fila, INTERCAMBIAMOS los punteros prev <-> cur
+ *    (swap) en vez de copiar datos: es O(1) y la fila vieja queda lista
+ *    para sobreescribirse en la siguiente iteracion.
+ *  - Al final copiamos el resultado a *fila y LIBERAMOS TODO: primero
+ *    cada BigInt con bi_free (sus digitos) y luego los dos arreglos con
+ *    free(). Sin esto habria fugas de memoria en cada corrida.
  */
 static int fila_pascal(int n, BigInt *fila)
 {
@@ -164,36 +260,42 @@ static int fila_pascal(int n, BigInt *fila)
     if (prev == NULL || cur == NULL) {
         fallo_memoria();
     }
+    /* malloc inicializa con basura; calloc ya da ceros, pero cada
+     * BigInt necesita su arreglo de digitos: bi_init hace ese malloc. */
     for (i = 0; i <= n; i++) {
         bi_init(&prev[i]);
         bi_init(&cur[i]);
     }
-    bi_set_u64(&prev[0], 1);
+    bi_set_u64(&prev[0], 1); /* fila 0: [1] */
 
     for (k = 1; k <= n; k++) {
         BigInt *tmp;
-        bi_set_u64(&cur[0], 1);
-        bi_set_u64(&cur[k], 1);
+        bi_set_u64(&cur[0], 1);   /* borde izquierdo C(k,0)=1 */
+        bi_set_u64(&cur[k], 1);   /* borde derecho  C(k,k)=1 */
         for (i = 1; i < k; i++) {
-            bi_set_u64(&cur[i], 0);
-            bi_add(&cur[i], &prev[i - 1]);
-            bi_add(&cur[i], &prev[i]);
+            /* C(k,i) = C(k-1,i-1) + C(k-1,i), suma digito a digito */
+            bi_set_u64(&cur[i], 0);        /* arranco en 0 */
+            bi_add(&cur[i], &prev[i - 1]); /* + el de arriba-izquierda */
+            bi_add(&cur[i], &prev[i]);     /* + el de arriba-derecha */
         }
         len = k + 1;
+        /* swap prev <-> cur: la fila nueva pasa a ser la "anterior" */
         tmp = prev;
         prev = cur;
         cur = tmp;
     }
 
+    /* Copio el resultado (fila n) al arreglo del llamador y libero
+     * toda la memoria dinamica usada: sin free() aqui habria leak. */
     for (i = 0; i <= n; i++) {
         bi_set_u64(&fila[i], 0);
         if (i < len) {
             bi_add(&fila[i], &prev[i]);
         }
-        bi_free(&prev[i]);
+        bi_free(&prev[i]); /* libera los digitos de cada BigInt */
         bi_free(&cur[i]);
     }
-    free(prev);
+    free(prev); /* libera los dos arreglos de estructuras */
     free(cur);
     return len;
 }

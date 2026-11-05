@@ -185,30 +185,64 @@ int main(int argc, char **argv)
 
     buf_init(&salida, tam + 64);
 
+    /*
+     * =========================================================================
+     *  ANALIZADOR LEXICO: MAQUINA DE ESTADOS
+     * =========================================================================
+     *  Recorremos el archivo caracter por caracter. La variable "estado"
+     *  dice en que contexto estamos:
+     *
+     *    0 = CODIGO     -> aqui SI se buscan palabras reservadas
+     *    1 = // linea   -> comentario hasta '\n'      : IGNORAR
+     *    2 = bloque     -> comentario hasta el cierre star-slash : IGNORAR
+     *    3 = cadena     -> texto entre comillas dobles : IGNORAR
+     *    4 = caracter   -> texto entre comillas simples : IGNORAR
+     *
+     *  REGLA DE ORO: solo en estado 0 un identificador puede reportarse.
+     *  En los estados 1-4 todo se COPIA al archivo de salida tal cual,
+     *  pero no se agrega al reporte. Asi "if" dentro de un string o
+     *  "while" dentro de un comentario NO se traducen.
+     *
+     *  Transiciones de vuelta a codigo (estado 0):
+     *    estado 1 -> al ver '\n'        (fin del comentario de linea)
+     *    estado 2 -> al ver el par star-slash  (fin del comentario;
+     *               ojo: un '*' suelto NO cierra, debe venir el '/')
+     *    estado 3/4 -> al ver la MISMA comilla que abrio
+     *  Los escapes (barra invertida + comilla) dentro de cadenas se
+     *  consumen en pareja para no "desfasar" el analizador.
+     * =========================================================================
+     */
     while (i < tam) {
         char c = texto[i];
-        if (estado == 0) { /* codigo */
+        if (estado == 0) { /* codigo: unico lugar donde se analiza */
+            /* --- Detectamos el inicio de un comentario o cadena ---
+             * En cuanto vemos "//" o el inicio de bloque (barra y
+             * asterisco seguidos) o una comilla, cambiamos de estado
+             * y de ahi en adelante no se buscara nada. */
             if (c == '/' && i + 1 < tam && texto[i + 1] == '/') {
-                estado = 1;
+                estado = 1; /* entramos a comentario de linea */
                 buf_push(&salida, c);
                 i++;
                 col++;
             } else if (c == '/' && i + 1 < tam && texto[i + 1] == '*') {
-                estado = 2;
+                estado = 2; /* entramos a comentario de bloque */
                 buf_push(&salida, c);
                 i++;
                 col++;
             } else if (c == '"') {
-                estado = 3;
+                estado = 3; /* entramos a cadena "..." */
                 buf_push(&salida, c);
                 i++;
                 col++;
             } else if (c == '\'') {
-                estado = 4;
+                estado = 4; /* entramos a caracter '...' */
                 buf_push(&salida, c);
                 i++;
                 col++;
             } else if (es_inicio_id(c)) {
+                /* --- Identificador: consumimos el completo [A-Za-z0-9_]
+                 * de una vez para evitar falsos positivos: "contador"
+                 * contiene "for" pero no ES "for"; "ifx" no es "if". */
                 size_t j = i;
                 int len;
                 const char *trad_p;
@@ -218,6 +252,9 @@ int main(int argc, char **argv)
                 len = (int)(j - i);
                 trad_p = buscar(texto + i, len);
                 if (trad_p != NULL) {
+                    /* SI es reserva de la tabla: la reportamos con su
+                     * linea/columna 1-based (guardadas al inicio del
+                     * identificador) y la escribimos traducida. */
                     char cap[64];
                     capitalizar(trad_p, cap, sizeof cap);
                     fprintf(rep, "%.*s -> %s, linea %d, columna %d\n",
@@ -225,6 +262,7 @@ int main(int argc, char **argv)
                     encontradas++;
                     buf_push_str(&salida, trad_p); /* minusc. en el archivo */
                 } else {
+                    /* No es reserva (main, x, contador...): copia tal cual */
                     size_t k;
                     for (k = 0; k < (size_t)len; k++) {
                         buf_push(&salida, texto[i + k]);
@@ -233,6 +271,7 @@ int main(int argc, char **argv)
                 col += len;
                 i = j;
             } else {
+                /* Caracter normal de codigo: copiar y contar posicion */
                 buf_push(&salida, c);
                 if (c == '\n') {
                     linea++;
@@ -242,23 +281,23 @@ int main(int argc, char **argv)
                 }
                 i++;
             }
-        } else if (estado == 1) { /* comentario de linea */
+        } else if (estado == 1) { /* comentario //: copiar hasta '\n' */
             buf_push(&salida, c);
             i++;
             if (c == '\n') {
-                estado = 0;
+                estado = 0; /* fin del comentario: volvemos a codigo */
                 linea++;
                 col = 1;
             } else {
                 col++;
             }
-        } else if (estado == 2) { /* comentario de bloque */
+        } else if (estado == 2) { /* comentario de bloque: copiar hasta el cierre */
             if (c == '*' && i + 1 < tam && texto[i + 1] == '/') {
                 buf_push(&salida, '*');
                 buf_push(&salida, '/');
                 i += 2;
                 col += 2;
-                estado = 0;
+                estado = 0; /* cerro el par de cierre: volvemos a codigo */
             } else {
                 buf_push(&salida, c);
                 i++;
@@ -269,9 +308,11 @@ int main(int argc, char **argv)
                     col++;
                 }
             }
-        } else { /* cadena o caracter */
+        } else { /* estados 3 (cadena) y 4 (caracter): IGNORAR todo */
             char fin = (estado == 3) ? '"' : '\'';
             if (c == '\\' && i + 1 < tam) {
+                /* Escape \" o \': consumimos la pareja completa para
+                 * que la comilla escapada no "cierre" la cadena. */
                 buf_push(&salida, c);
                 buf_push(&salida, texto[i + 1]);
                 if (texto[i + 1] == '\n') {
@@ -282,11 +323,15 @@ int main(int argc, char **argv)
                 }
                 i += 2;
             } else if (c == fin) {
+                /* Encontramos la comilla que ABRO: cerramos el contexto
+                 * y volvemos al estado 0 (codigo). */
                 buf_push(&salida, c);
                 i++;
                 col++;
                 estado = 0;
             } else {
+                /* Contenido de la cadena/char: se copia pero NUNCA se
+                 * reporta como palabra reservada. */
                 buf_push(&salida, c);
                 i++;
                 if (c == '\n') {
