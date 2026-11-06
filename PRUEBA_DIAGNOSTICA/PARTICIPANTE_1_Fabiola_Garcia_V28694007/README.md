@@ -30,8 +30,7 @@ bash PRUEBA_DIAGNOSTICA/PARTICIPANTE_1_Fabiola_Garcia_V28694007/ejercicio2/scrip
 bash PRUEBA_DIAGNOSTICA/PARTICIPANTE_1_Fabiola_Garcia_V28694007/ejercicio3/scripts/compilar_ejecutar.sh
 ```
 
-Cada script: verifica las herramientas → compila el código C → ejecuta Python y C →
-compara resultados → escribe los archivos en `resultados/` → imprime `OK:` o `ERROR:`.
+Cada script: verifica las herramientas → compila el código C → ejecuta (**Python y C en Ej1 y Ej2; solo C en Ej3**) → escribe los archivos en `resultados/` → imprime `OK:` o `ERROR:`.
 
 Ejecución manual (opcional), dentro de la carpeta de cada ejercicio:
 
