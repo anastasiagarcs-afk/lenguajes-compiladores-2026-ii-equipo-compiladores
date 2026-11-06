@@ -8,7 +8,7 @@
 | Cédula | V-31963299 |
 | Sección | 3 |
 | Rol | Participante 4 |
-| Usuario de GitHub | `<!-- PENDIENTE -->` (para el participante 1: `anastasiagarcs-afk`) |
+| Usuario de GitHub | `eliannysthefany-glitch` (para el participante 1: `anastasiagarcs-afk`) |
 
 ## Enlace a Drive
 
