@@ -1,2 +1,2 @@
 lenguaje,tiempo_segundos,n_movimientos,repeticiones
-c,0.000258,500,10
+c,0.000348,500,10
