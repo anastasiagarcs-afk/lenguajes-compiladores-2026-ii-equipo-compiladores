@@ -3,6 +3,7 @@
 
 Uso:
     python caballo.py validar <inicial> "<movimientos>" [n]
+    python caballo.py validar-archivo <archivo>
     python caballo.py pruebas <archivo>
     python caballo.py tiempo <archivo> [repeticiones]
 
@@ -98,6 +99,17 @@ def modo_validar(args) -> int:
     return 0 if correcto else 1
 
 
+def modo_validar_archivo(args) -> int:
+    if len(args) != 1:
+        print("Uso: caballo.py validar-archivo <archivo>", file=sys.stderr)
+        return 2
+    inicial, movimientos = leer_movimientos(args[0])
+    correcto, mensaje = validar(inicial, movimientos)
+    print(f"Movimientos: {len(movimientos)}")
+    print(f"Resultado: {mensaje}")
+    return 0 if correcto else 1
+
+
 def modo_pruebas(args) -> int:
     if not args:
         print("Uso: caballo.py pruebas <archivo>", file=sys.stderr)
@@ -158,8 +170,9 @@ def modo_tiempo(args) -> int:
 def main(argv) -> int:
     if len(argv) < 2:
         print(
-            "Uso: caballo.py {validar|pruebas|tiempo} ...\n"
+            "Uso: caballo.py {validar|validar-archivo|pruebas|tiempo} ...\n"
             "  validar <inicial> \"<movimientos>\" [n]\n"
+            "  validar-archivo <archivo>\n"
             "  pruebas <archivo>\n"
             "  tiempo <archivo> [repeticiones]",
             file=sys.stderr,
@@ -169,6 +182,8 @@ def main(argv) -> int:
     modo = argv[1]
     if modo == "validar":
         return modo_validar(argv[2:])
+    if modo == "validar-archivo":
+        return modo_validar_archivo(argv[2:])
     if modo == "pruebas":
         return modo_pruebas(argv[2:])
     if modo == "tiempo":

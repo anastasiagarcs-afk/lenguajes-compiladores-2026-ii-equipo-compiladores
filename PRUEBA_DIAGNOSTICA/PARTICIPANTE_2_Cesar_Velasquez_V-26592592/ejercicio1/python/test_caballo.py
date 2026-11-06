@@ -2,6 +2,7 @@
 """Pruebas unitarias del verificador de movimientos de caballo."""
 
 import unittest
+from pathlib import Path
 
 import caballo
 
@@ -54,6 +55,15 @@ class PruebasCaballo(unittest.TestCase):
             "kc2",
             "movimiento INCORRECTO falla letra k no pertenece a un caballo",
         )
+
+    def test_lista_real_500(self):
+        ruta = Path(__file__).resolve().parent.parent / "scripts" / "movimientos.txt"
+        inicial, movimientos = caballo.leer_movimientos(str(ruta))
+        self.assertEqual(inicial, "a2")
+        self.assertEqual(len(movimientos), 500)
+        correcto, mensaje = caballo.validar(inicial, movimientos)
+        self.assertTrue(correcto)
+        self.assertEqual(mensaje, "movimiento CORRECTO")
 
 
 if __name__ == "__main__":
