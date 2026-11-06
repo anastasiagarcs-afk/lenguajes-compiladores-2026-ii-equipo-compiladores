@@ -1,18 +1,3 @@
-== Python ==
-CASO 1: OK -> movimiento CORRECTO
-CASO 2: OK -> INCORRECTO falla en el movimiento 3
-CASO 3: OK -> movimiento CORRECTO
-CASO 4: OK -> INCORRECTO falla en el movimiento 1
-CASO 5: OK -> movimiento CORRECTO
-CASO 6: OK -> INCORRECTO falla en el movimiento 2
-CASO 7: OK -> movimiento CORRECTO
-CASO 8: OK -> movimiento INCORRECTO falla letra Q no pertenece a un caballo
-CASO 9: OK -> INCORRECTO falla en el movimiento 9
-CASO 10: OK -> INCORRECTO falla en el movimiento 1
-CASO 11: OK -> movimiento INCORRECTO falla letra k no pertenece a un caballo
-RESULTADO: 11/11 OK
-
-== C ==
 CASO 1: OK -> movimiento CORRECTO
 CASO 2: OK -> INCORRECTO falla en el movimiento 3
 CASO 3: OK -> movimiento CORRECTO
