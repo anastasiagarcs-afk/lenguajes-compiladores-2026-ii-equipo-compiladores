@@ -14,5 +14,7 @@ a1;Kj2;casilla invalida
 a1;Kc3;INCORRECTO falla en el movimiento 1
 a1;Kc2 Kc4;INCORRECTO falla en el movimiento 2
 a1;Kc2 Kd4 Kb3 Ka3;INCORRECTO falla en el movimiento 4
+a1;Kc2 Kd4 Kb4 Kc5;INCORRECTO falla en el movimiento 3
+a1;Qc2;no pertenece a un caballo
 z9;Kc2;posicion inicial invalida
 a0;Kc2;posicion inicial invalida

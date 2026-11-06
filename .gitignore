@@ -46,6 +46,13 @@ Actúa como un*.txt
 *Prompt*.txt
 *prompt*.txt
 
+# --- Archivos de defensa: NUNCA se suben al repositorio ---
+*.pptx
+*.docx
+*.png
+*.jpg
+*.jpeg
+
 # --- VS Code: se comparte solo la config de IntelliSense para MSYS2 ---
 .vscode/*
 !.vscode/c_cpp_properties.json

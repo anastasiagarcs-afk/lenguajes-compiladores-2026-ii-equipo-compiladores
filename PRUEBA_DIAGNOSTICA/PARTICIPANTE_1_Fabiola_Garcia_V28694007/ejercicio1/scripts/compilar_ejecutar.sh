@@ -50,11 +50,19 @@ echo "      OK: c/caballo.exe"
 echo "[2/5] Pruebas unitarias de Python (unittest)..."
 $PY python/test_caballo.py
 
-echo "[3/5] Casos del enunciado en Python y en C..."
+echo "[3/5] Demostracion de deteccion de errores (casos cortos del PDF)..."
+echo "   --- Caso: salto ilegal (falla en movimiento 3) ---"
+$PY python/caballo.py validar a1 "Kc2 Kd4 Kb4 Kc5" || true
+./c/caballo.exe validar a1 "Kc2 Kd4 Kb4 Kc5" || true
+echo "   --- Caso: letra no pertenece a caballo ---"
+$PY python/caballo.py validar a1 "Qc2" || true
+./c/caballo.exe validar a1 "Qc2" || true
+
+echo "[4/5] Casos completos del enunciado (ejemplos.txt) en Python y C..."
 $PY python/caballo.py pruebas scripts/ejemplos.txt
 ./c/caballo.exe pruebas scripts/ejemplos.txt
 
-echo "[4/5] Medicion de tiempos (10 verificaciones de la lista de movimientos)..."
+echo "[5/5] Medicion de tiempos (10 verificaciones de la lista de 500 movimientos)..."
 LINEA_PY=$($PY python/caballo.py tiempo scripts/movimientos.txt 10)
 LINEA_C=$(./c/caballo.exe tiempo scripts/movimientos.txt 10)
 echo "      Python: $LINEA_PY"

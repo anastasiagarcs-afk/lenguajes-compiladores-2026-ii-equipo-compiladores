@@ -1,5 +1,5 @@
 # Reporte del analizador de palabras reservadas (Ejercicio 3)
-# Entrada: c/programa.c - generado por analizador.py y analizador.c
+# Entrada: c/programa.c - generado por analizador.c
 # Formato: palabra_original -> Traduccion, linea N, columna M
 struct -> Estructura, linea 16, columna 1
 int -> Entero, linea 17, columna 5

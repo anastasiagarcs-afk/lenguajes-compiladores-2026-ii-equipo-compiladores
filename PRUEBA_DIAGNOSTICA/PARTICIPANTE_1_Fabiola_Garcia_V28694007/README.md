@@ -1,6 +1,6 @@
 ﻿# Fabiola García — Participante 1 (Líder)
 
-**Carpeta de trabajo individual del participante. Prueba diagnóstica completa en Python y C.**
+**Carpeta de trabajo individual del participante. Ejercicios 1 y 2 en Python y C; Ejercicio 3 solo en C (actualización del profesor).**
 
 | Campo | Dato |
 | --- | --- |
@@ -48,9 +48,8 @@ python python/polinomio.py poly 100
 python python/polinomio.py tiempo 100
 gcc -O2 -Wall -o c/polinomio.exe c/polinomio.c && ./c/polinomio.exe demo
 
-# Ejercicio 3
-python python/analizador.py c/programa.c resultados/palabras_encontradas.txt resultados/programa_traducido.c
-gcc -O2 -Wall -o c/analizador.exe c/analizador.c && ./c/analizador.exe c/programa.c resultados/reporte_c.txt resultados/traducido_c.c
+# Ejercicio 3 (solo C)
+gcc -O2 -Wall -o c/analizador.exe c/analizador.c && ./c/analizador.exe c/programa.c resultados/palabras_encontradas.txt resultados/programa_traducido.c
 ```
 
 ---
@@ -76,28 +75,24 @@ específico si la letra no es `K`.
 | `python/caballo.py` | Implementación en Python (modos `validar`, `pruebas`, `tiempo`) |
 | `python/test_caballo.py` | 11 pruebas unitarias (unittest) con los casos del enunciado |
 | `c/caballo.c` | Implementación en C (mismos modos, temporizador de alta resolución) |
-| `scripts/ejemplos.txt` | 13 casos de prueba (formato `inicial;movimientos;esperado`) |
-| `scripts/movimientos.txt` | **Lista real del PDF**: 224 movimientos, inicio `a2` (ver nota abajo) |
+| `scripts/ejemplos.txt` | 15 casos de prueba (formato `inicial;movimientos;esperado`) |
+| `scripts/movimientos.txt` | **Lista real del PDF actualizado**: 500 movimientos, inicio `a2` |
 | `scripts/compilar_ejecutar.sh` | Compila, prueba y mide tiempos |
 | `resultados/tiempos_ejercicio1.txt` | Tiempos medidos (CSV) |
 
 **Notas y supuestos:**
 
-- **`movimientos.txt` contiene la lista real del PDF** (reemplazó al placeholder):
-  **224 movimientos** con posición inicial **`a2`**. Detalle importante: el primer
-  movimiento `Kb4` **no es salto legal desde `a1`** (desde a1 solo hay `Kb3`/`Kc2`);
-  la lista completa fue validada (224/224 correctos) desde `a2` (también es válida
-  desde `c2`, `a6`, `c6`, `d3` o `d5`; se usa `a2`). El enunciado original pedía una
-  lista de 500 movimientos: los programas emiten un `AVISO` por stderr cuando la lista
-  no tiene 500 y el CSV documenta la cantidad real (`n_movimientos=224`).
-  Formato del archivo: líneas `#` ignoradas, línea `inicial <casilla>`, movimientos
-  separados por espacios.
+- **`movimientos.txt` contiene los 500 movimientos válidos del PDF actualizado**
+  del profesor, con posición inicial **`a2`**. La lista fue auditada y es 100 %
+  legal desde `a2`. Los casos cortos de `ejemplos.txt` demuestran la detección de
+  errores (salto ilegal en movimiento 3, letra `Q`, casillas inválidas).
+  Formato del archivo: línea `inicial <casilla>`, movimientos separados por espacios.
 - El primer movimiento se evalúa desde la posición inicial; cada movimiento posterior
   desde la casilla anterior.
 - Casillas inválidas, letras distintas de `K` y saltos no permitidos producen mensajes
   específicos; el reporte usa índice de movimiento basado en 1.
 
-**Tiempos medidos (10 verificaciones de la lista real de 224 movimientos):** ver
+**Tiempos medidos (10 verificaciones de la lista de 500 movimientos):** ver
 `resultados/tiempos_ejercicio1.txt` (formato `lenguaje,tiempo_segundos,n_movimientos,repeticiones`).
 
 ---
@@ -182,9 +177,8 @@ siguiendo el ejemplo del profesor.
 | `case` | caso |
 | `default` | defecto |
 
-**Archivos:** `c/programa.c` (entrada obligatoria), `python/analizador.py`,
-`c/analizador.c` (carga el archivo completo con `malloc`), `scripts/compilar_ejecutar.sh`
-(ambos lenguajes y **comparación de reportes**), y en `resultados/`:
+**Archivos:** `c/programa.c` (entrada obligatoria), `c/analizador.c` (carga el archivo
+completo con `malloc`), `scripts/compilar_ejecutar.sh` (solo C), y en `resultados/`:
 
 | Archivo | Contenido |
 | --- | --- |
@@ -196,8 +190,7 @@ siguiendo el ejemplo del profesor.
 > traducido usa las palabras en minúscula (son identificadores) y **no es un programa C
 > compilable** — su propósito es mostrar visualmente el reemplazo.
 
-**Resultado esperado:** `OK: 34 palabras reservadas encontradas` en ambos lenguajes y
-`OK: ambos lenguajes producen el mismo reporte` al ejecutar el script.
+**Resultado esperado:** `OK: 34 palabras reservadas encontradas (C)` al ejecutar el script.
 
 ---
 
@@ -218,7 +211,6 @@ PARTICIPANTE_1_Fabiola_Garcia_V28694007/
 │   ├── scripts/ compilar_ejecutar.sh
 │   └── resultados/ tiempos_ejercicio2.txt, polinomio_n5.txt, polinomio_n100.txt
 └── ejercicio3/
-    ├── python/  analizador.py
     ├── c/       analizador.c, programa.c
     ├── scripts/ compilar_ejecutar.sh
     └── resultados/ palabras_encontradas.txt, programa_traducido.c
