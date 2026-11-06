@@ -1,3 +1,2 @@
 lenguaje,tiempo_segundos,n_movimientos,repeticiones
-python,0.004040,500,10
-c,0.000278,500,10
+c,0.000256,500,10

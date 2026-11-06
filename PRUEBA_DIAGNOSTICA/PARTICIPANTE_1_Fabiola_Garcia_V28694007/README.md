@@ -1,6 +1,6 @@
 ﻿# Fabiola García — Participante 1 (Líder)
 
-**Carpeta de trabajo individual del participante. Ejercicios 1 y 2 en Python y C; Ejercicio 3 solo en C (actualización del profesor).**
+**Carpeta de trabajo individual del participante. Ejercicios 1 y 3 solo en C; Ejercicio 2 en Python y C (reglas finales del profesor).**
 
 | Campo | Dato |
 | --- | --- |
@@ -30,16 +30,15 @@ bash PRUEBA_DIAGNOSTICA/PARTICIPANTE_1_Fabiola_Garcia_V28694007/ejercicio2/scrip
 bash PRUEBA_DIAGNOSTICA/PARTICIPANTE_1_Fabiola_Garcia_V28694007/ejercicio3/scripts/compilar_ejecutar.sh
 ```
 
-Cada script: verifica las herramientas → compila el código C → ejecuta (**Python y C en Ej1 y Ej2; solo C en Ej3**) → escribe los archivos en `resultados/` → imprime `OK:` o `ERROR:`.
+Cada script: verifica las herramientas → compila el código C → ejecuta (**Python y C en Ej2; solo C en Ej1 y Ej3**) → escribe los archivos en `resultados/` → imprime `OK:` o `ERROR:`.
 
 Ejecución manual (opcional), dentro de la carpeta de cada ejercicio:
 
 ```bash
 # Ejercicio 1
-python python/caballo.py validar a1 "Kc2 Kd4 Kb3 Kc5"
-python python/caballo.py pruebas scripts/ejemplos.txt
-python python/test_caballo.py                    # pruebas unitarias
+gcc -O2 -Wall -o c/caballo.exe c/caballo.c && ./c/caballo.exe validar a1 "Kc2 Kd4 Kb3 Kc5"
 gcc -O2 -Wall -o c/caballo.exe c/caballo.c && ./c/caballo.exe pruebas scripts/ejemplos.txt
+gcc -O2 -Wall -o c/test_caballo.exe c/test_caballo.c && ./c/test_caballo.exe  # 11 pruebas
 
 # Ejercicio 2
 python python/polinomio.py demo
@@ -70,10 +69,8 @@ específico si la letra no es `K`.
 **Archivos:**
 
 | Ruta | Contenido |
-| --- | --- |
-| `python/caballo.py` | Implementación en Python (modos `validar`, `pruebas`, `tiempo`) |
-| `python/test_caballo.py` | 11 pruebas unitarias (unittest) con los casos del enunciado |
-| `c/caballo.c` | Implementación en C (mismos modos, temporizador de alta resolución) |
+| `c/caballo.c` | Implementación en C (modos `validar`, `pruebas`, `tiempo`) |
+| `c/test_caballo.c` | 11 pruebas unitarias en C con los casos del enunciado |
 | `scripts/ejemplos.txt` | 15 casos de prueba (formato `inicial;movimientos;esperado`) |
 | `scripts/movimientos.txt` | **Lista real del PDF actualizado**: 500 movimientos, inicio `a2` |
 | `scripts/compilar_ejecutar.sh` | Compila, prueba y mide tiempos |
@@ -200,8 +197,7 @@ PARTICIPANTE_1_Fabiola_Garcia_V28694007/
 ├── README.md                  # este archivo
 ├── enlace_drive.txt           # enlace al video de defensa (PLACEHOLDER)
 ├── ejercicio1/
-│   ├── python/  caballo.py, test_caballo.py
-│   ├── c/       caballo.c (+ caballo.exe compilado, ignorado por git)
+│   ├── c/       caballo.c, test_caballo.c (+ .exe compilados, ignorados por git)
 │   ├── scripts/ compilar_ejecutar.sh, ejemplos.txt, movimientos.txt
 │   └── resultados/ tiempos_ejercicio1.txt
 ├── ejercicio2/
@@ -220,4 +216,4 @@ PARTICIPANTE_1_Fabiola_Garcia_V28694007/
 - La prueba diagnóstica es **individual**: este trabajo es de la Participante 1.
 - **No subir videos** al repositorio: solo enlaces de Drive en `enlace_drive.txt`.
 - **IA permitida**, pero debo entender y defender cada línea de este código.
-- Informes y citas en **normas APA** (`docs/plantilla_informe_APA.md`).
+- Informes y citas en **normas APA** (`docs/plantilla_informe_APA.md`).
