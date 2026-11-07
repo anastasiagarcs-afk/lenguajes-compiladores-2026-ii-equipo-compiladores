@@ -121,17 +121,6 @@ Se permite usar asistentes de IA para apoyar el desarrollo. Sin embargo:
   `lyc.fmarquez@e.uneg.edu.ve`
 - Cada video de defensa se sube a Google Drive y se enlaza en la carpeta correspondiente.
 
-## Placeholders pendientes por completar
-
-- [x] Usuario de GitHub del Participante 2 (Cesar Velasquez) — Bboyjoker15
-- [x] Usuario de GitHub del Participante 3 (Ana Orellana)
-- [ ] Usuario de GitHub del Participante 4 (Elianny Avila)
-- [ ] Enlace de Drive del video de defensa — Participante 1 (`PRUEBA_DIAGNOSTICA/.../enlace_drive.txt`)
-- [ ] Enlace de Drive del video de defensa — Participante 2
-- [ ] Enlace de Drive del video de defensa — Participante 3
-- [ ] Enlace de Drive del video de defensa — Participante 4
-- [ ] Enlaces de Drive de TEMA1, TEMA2, TEMA3 y TEMA4
-
 ---
 
 *Equipo de Compiladores 2026-II — UNEG — Período 2026-II*
