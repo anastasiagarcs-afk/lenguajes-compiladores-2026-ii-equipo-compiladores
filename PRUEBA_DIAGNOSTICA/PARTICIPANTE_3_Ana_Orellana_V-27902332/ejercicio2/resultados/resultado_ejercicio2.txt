@@ -24,3 +24,26 @@ Resultado Final f(2) = 2187
 
 --- RENDIMIENTO GENERACION n=100 (C) ---
 Tiempo en C para generar n=100: 0.000000 segundos
+
+========================================
+=== EJECUCION DESDE PYTHON (COMPARATIVA) ===
+========================================
+
+a) Polinomio generado (Python):
+(x+1)^7 = x^7 + 7x^6 + 21x^5 + 35x^4 + 35x^3 + 21x^2 + 7x + 1
+
+b) Evaluacion paso a paso para x = 2 (Python):
+Termino 1: 1 * (2)^7 = 128
+Termino 2: 7 * (2)^6 = 448
+Termino 3: 21 * (2)^5 = 672
+Termino 4: 35 * (2)^4 = 560
+Termino 5: 35 * (2)^3 = 280
+Termino 6: 21 * (2)^2 = 84
+Termino 7: 7 * (2)^1 = 14
+Termino 8: 1 * (2)^0 = 1
+Resultado Final f(2) = 2187
+
+--- RENDIMIENTO GENERACION n=100 (PYTHON) ---
+Tiempo en Python para generar n=100: 0.002791 segundos
+Nota: Python procesa nativamente enteros de precision arbitraria, evitando el overflow de C.
+
