@@ -1,4 +1,5 @@
 #!/bin/bash
-gcc -O2 c/ejercicio1.c -o c/ejercicio1
-./c/ejercicio1
-python3 python/ejercicio1.py
+echo "Ejecutando Ejercicio 1 (Python)..."
+cd ../python
+python3 ejercicio1.py
+echo "Ejecucion completada. Revisa la carpeta resultados."

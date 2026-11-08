@@ -1,8 +1,13 @@
 @echo off
-if not exist resultados mkdir resultados
-echo === Compilando y ejecutando C (Ejercicio 3) ===
-gcc -O2 c\ejercicio3.c -o c\ejercicio3.exe
-c\ejercicio3.exe c\ejemplo_entrada.c
-echo.
-echo === Ejecutando Python (Ejercicio 3) ===
-python python\ejercicio3.py python\ejemplo_entrada.c
+echo Compilando Ejercicio 3 (C)...
+cd ..\c
+gcc ejercicio3.c -o ejercicio3.exe
+if %errorlevel% neq 0 (
+    echo Error de compilacion.
+    pause
+    exit /b %errorlevel%
+)
+echo Ejecutando analizador léxico...
+ejercicio3.exe
+echo Ejecucion completada. Revisa resultado_ejercicio3.txt
+pause

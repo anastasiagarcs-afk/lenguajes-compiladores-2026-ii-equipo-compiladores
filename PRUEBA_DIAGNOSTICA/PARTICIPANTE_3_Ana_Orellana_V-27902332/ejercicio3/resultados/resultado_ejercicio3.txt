@@ -1,44 +1,42 @@
-======================================================================
-UNIVERSIDAD NACIONAL EXPERIMENTAL DE GUAYANA (UNEG)
-LENGUAJES Y COMPILADORES - PERIODO LECTIVO 2026-II
-PRUEBA DIAGNOSTICA - EJERCICIO 3: TRADUCTOR DE PALABRAS RESERVADAS DE C
-Estudiante: Ana Orellana | Seccion: 01
-Grupo: Equipo de Compiladores 2026-II
-Eslogan: "Comprender el codigo, construir soluciones."
-======================================================================
+--- TRADUCCION DE PALABRAS RESERVADAS ---
+Archivo analizado: ejercicio3.c
+Memoria dinamica asignada: 2908 bytes
 
---- SALIDA DE EJECUCION EN C (Memoria Dinamica) ---
-Archivo cargado: 571 bytes
+Detectado: 'char' 	-> Traduccion: 'caracter'
+Detectado: 'int' 	-> Traduccion: 'entero'
+Detectado: 'return' 	-> Traduccion: 'retornar'
+Detectado: 'if' 	-> Traduccion: 'si'
+Detectado: 'else' 	-> Traduccion: 'sino'
+Detectado: 'while' 	-> Traduccion: 'mientras'
+Detectado: 'for' 	-> Traduccion: 'para'
+Detectado: 'void' 	-> Traduccion: 'vacio'
+Detectado: 'char' 	-> Traduccion: 'caracter'
+Detectado: 'float' 	-> Traduccion: 'flotante'
+Detectado: 'double' 	-> Traduccion: 'doble'
+Detectado: 'struct' 	-> Traduccion: 'estructura'
+Detectado: 'break' 	-> Traduccion: 'romper'
+Detectado: 'continue' 	-> Traduccion: 'continuar'
+Detectado: 'switch' 	-> Traduccion: 'seleccionar'
+Detectado: 'case' 	-> Traduccion: 'caso'
+Detectado: 'default' 	-> Traduccion: 'defecto'
+Detectado: 'char' 	-> Traduccion: 'caracter'
+Detectado: 'int' 	-> Traduccion: 'entero'
+Detectado: 'if' 	-> Traduccion: 'si'
+Detectado: 'return' 	-> Traduccion: 'retornar'
+Detectado: 'char' 	-> Traduccion: 'caracter'
+Detectado: 'char' 	-> Traduccion: 'caracter'
+Detectado: 'if' 	-> Traduccion: 'si'
+Detectado: 'return' 	-> Traduccion: 'retornar'
+Detectado: 'if' 	-> Traduccion: 'si'
+Detectado: 'return' 	-> Traduccion: 'retornar'
+Detectado: 'char' 	-> Traduccion: 'caracter'
+Detectado: 'char' 	-> Traduccion: 'caracter'
+Detectado: 'int' 	-> Traduccion: 'entero'
+Detectado: 'while' 	-> Traduccion: 'mientras'
+Detectado: 'for' 	-> Traduccion: 'para'
+Detectado: 'int' 	-> Traduccion: 'entero'
+Detectado: 'if' 	-> Traduccion: 'si'
+Detectado: 'break' 	-> Traduccion: 'romper'
+Detectado: 'return' 	-> Traduccion: 'retornar'
 
-#include <stdio.h>
-
-entero main() {
-    entero contador = 0;
-    flotante promedio = 0.0;
-    caracter letra = 'a';
-
-    // Comentario: if (contador == 0) return 1;
-    /* Bloque de comentario
-       while (contador < 10) continue;
-    */
-    para (entero i = 0; i < 5; i++) {
-        si (i % 2 == 0) {
-            contador += i;
-        } sino {
-            contador--;
-        }
-    }
-
-    segun (contador) {
-        caso 0:
-            printf("Cero\n");
-            romper;
-        defecto:
-            printf("Distinto de cero\n");
-    }
-
-    retornar 0;
-}
-
-Tiempo de ejecucion en C (n=100 iteraciones): 0.001000 segundos
-
+Total de palabras reservadas identificadas y traducidas: 36

@@ -1,238 +1,82 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <time.h>
 
-typedef struct {
-    const char *keyword;
-    const char *traduccion;
-} TraduccionKW;
-
-static const TraduccionKW DICCIONARIO[] = {
-    {"auto", "automatico"},     {"break", "romper"},
-    {"case", "caso"},           {"char", "caracter"},
-    {"const", "constante"},     {"continue", "continuar"},
-    {"default", "defecto"},     {"do", "hacer"},
-    {"double", "doble"},        {"else", "sino"},
-    {"enum", "enumeracion"},    {"extern", "externo"},
-    {"float", "flotante"},      {"for", "para"},
-    {"goto", "ir_a"},           {"if", "si"},
-    {"int", "entero"},          {"long", "largo"},
-    {"register", "registro"},   {"return", "retornar"},
-    {"short", "corto"},         {"signed", "con_signo"},
-    {"sizeof", "tamano_de"},    {"static", "estatico"},
-    {"struct", "estructura"},   {"switch", "segun"},
-    {"typedef", "definir_tipo"},{"union", "union"},
-    {"unsigned", "sin_signo"},  {"void", "vacio"},
-    {"volatile", "volatil"},    {"while", "mientras"},
-    {NULL, NULL}
+// Diccionario de palabras reservadas en C y su traduccion al español
+const char *reservadasC[] = {
+    "int", "return", "if", "else", "while", "for", 
+    "void", "char", "float", "double", "struct", 
+    "break", "continue", "switch", "case", "default"
 };
+const char *reservadasESP[] = {
+    "entero", "retornar", "si", "sino", "mientras", "para", 
+    "vacio", "caracter", "flotante", "doble", "estructura", 
+    "romper", "continuar", "seleccionar", "caso", "defecto"
+};
+#define TOTAL_RES 16
 
-const char* buscar_traduccion(const char *palabra) {
-    for (int i = 0; DICCIONARIO[i].keyword != NULL; i++) {
-        if (strcmp(DICCIONARIO[i].keyword, palabra) == 0) {
-            return DICCIONARIO[i].traduccion;
-        }
-    }
-    return NULL;
-}
-
-void asegurar_ejemplo_entrada(const char *ruta) {
-    FILE *f = fopen(ruta, "r");
-    if (!f) {
-        // Si no existe, lo crea automaticamente
-        f = fopen(ruta, "w");
-        if (f) {
-            fprintf(f,
-                "#include <stdio.h>\n\n"
-                "int main() {\n"
-                "    int contador = 0;\n"
-                "    float promedio = 0.0;\n"
-                "    char letra = 'a';\n\n"
-                "    // Comentario: if (contador == 0) return 1;\n"
-                "    /* Bloque de comentario\n"
-                "       while (contador < 10) continue;\n"
-                "    */\n"
-                "    for (int i = 0; i < 5; i++) {\n"
-                "        if (i %% 2 == 0) {\n"
-                "            contador += i;\n"
-                "        } else {\n"
-                "            contador--;\n"
-                "        }\n"
-                "    }\n\n"
-                "    switch (contador) {\n"
-                "        case 0:\n"
-                "            printf(\"Cero\\n\");\n"
-                "            break;\n"
-                "        default:\n"
-                "            printf(\"Distinto de cero\\n\");\n"
-                "    }\n\n"
-                "    return 0;\n"
-                "}\n"
-            );
-            fclose(f);
-        }
-    } else {
-        fclose(f);
-    }
-}
-
-char* cargar_archivo_dinamico(const char *ruta, size_t *tamano) {
-    FILE *f = fopen(ruta, "rb");
-    if (!f) return NULL;
-    fseek(f, 0, SEEK_END);
-    long len = ftell(f);
-    fseek(f, 0, SEEK_SET);
-
-    char *buffer = (char*)malloc((len + 1) * sizeof(char));
-    if (!buffer) {
-        fclose(f);
-        return NULL;
-    }
-    size_t leidos = fread(buffer, 1, len, f);
-    buffer[leidos] = '\0';
-    *tamano = leidos;
-    fclose(f);
-    return buffer;
-}
-
-char* traducir_codigo(const char *fuente) {
-    size_t cap = strlen(fuente) * 2 + 1024;
-    char *salida = (char*)malloc(cap);
-    size_t out_idx = 0;
-
-    int i = 0;
-    int len = strlen(fuente);
-
-    while (i < len) {
-        if (fuente[i] == '/' && i + 1 < len && fuente[i+1] == '/') {
-            while (i < len && fuente[i] != '\n') {
-                salida[out_idx++] = fuente[i++];
-            }
-            continue;
-        }
-        if (fuente[i] == '/' && i + 1 < len && fuente[i+1] == '*') {
-            salida[out_idx++] = fuente[i++];
-            salida[out_idx++] = fuente[i++];
-            while (i + 1 < len && !(fuente[i] == '*' && fuente[i+1] == '/')) {
-                salida[out_idx++] = fuente[i++];
-            }
-            if (i < len) salida[out_idx++] = fuente[i++];
-            if (i < len) salida[out_idx++] = fuente[i++];
-            continue;
-        }
-        if (fuente[i] == '"') {
-            salida[out_idx++] = fuente[i++];
-            while (i < len && fuente[i] != '"') {
-                if (fuente[i] == '\\' && i + 1 < len) {
-                    salida[out_idx++] = fuente[i++];
-                }
-                salida[out_idx++] = fuente[i++];
-            }
-            if (i < len) salida[out_idx++] = fuente[i++];
-            continue;
-        }
-        if (fuente[i] == '\'') {
-            salida[out_idx++] = fuente[i++];
-            while (i < len && fuente[i] != '\'') {
-                if (fuente[i] == '\\' && i + 1 < len) {
-                    salida[out_idx++] = fuente[i++];
-                }
-                salida[out_idx++] = fuente[i++];
-            }
-            if (i < len) salida[out_idx++] = fuente[i++];
-            continue;
-        }
-
-        if (isalpha((unsigned char)fuente[i]) || fuente[i] == '_') {
-            char token[128];
-            int t_idx = 0;
-            while (i < len && (isalnum((unsigned char)fuente[i]) || fuente[i] == '_')) {
-                if (t_idx < 127) token[t_idx++] = fuente[i];
-                i++;
-            }
-            token[t_idx] = '\0';
-
-            const char *trad = buscar_traduccion(token);
-            const char *a_copiar = (trad != NULL) ? trad : token;
-            size_t clen = strlen(a_copiar);
-
-            memcpy(&salida[out_idx], a_copiar, clen);
-            out_idx += clen;
-            continue;
-        }
-
-        salida[out_idx++] = fuente[i++];
-    }
-
-    salida[out_idx] = '\0';
-    return salida;
-}
-
-int main(int argc, char *argv[]) {
-    // Intentamos asegurar y cargar ejemplo_entrada.c desde distintas rutas relativas posibles
-    const char *rutas[] = {
-        "ejemplo_entrada.c",
-        "c/ejemplo_entrada.c",
-        "../c/ejemplo_entrada.c"
-    };
-
-    char *codigo = NULL;
-    size_t tam = 0;
-    const char *ruta_usada = "ejemplo_entrada.c";
-
-    for (int i = 0; i < 3; i++) {
-        asegurar_ejemplo_entrada(rutas[i]);
-        codigo = cargar_archivo_dinamico(rutas[i], &tam);
-        if (codigo) {
-            ruta_usada = rutas[i];
-            break;
-        }
-    }
-
-    if (!codigo) {
-        printf("Error critico: no se pudo cargar ni crear ejemplo_entrada.c\n");
+int main() {
+    // 1. Abrir un archivo fuente en C (usaremos este mismo archivo como prueba)
+    FILE *archivo = fopen("ejercicio3.c", "r");
+    if (!archivo) {
+        printf("Error: No se pudo abrir el archivo fuente (ejercicio3.c).\n");
         return 1;
     }
 
-    // Medicion de tiempo para n=100 iteraciones
-    clock_t start = clock();
-    char *codigo_traducido = NULL;
-    for (int i = 0; i < 100; i++) {
-        if (codigo_traducido) free(codigo_traducido);
-        codigo_traducido = traducir_codigo(codigo);
+    // Calcular el tamaño total del archivo en bytes
+    fseek(archivo, 0, SEEK_END);
+    long size = ftell(archivo);
+    rewind(archivo);
+
+    // 2. Cargar el programa en MEMORIA DINÁMICA
+    char *buffer = (char *)malloc(size + 1);
+    if (!buffer) {
+        printf("Error de asignacion de memoria dinamica.\n");
+        fclose(archivo);
+        return 1;
     }
-    clock_t end = clock();
-    double cpu_time = ((double)(end - start)) / CLOCKS_PER_SEC;
+    
+    fread(buffer, 1, size, archivo);
+    buffer[size] = '\0'; // Asegurar el fin de la cadena
+    fclose(archivo);
 
-    printf("=== ARCHIVO FUENTE C CARGADO DINAMICAMENTE (%zu bytes desde %s) ===\n", tam, ruta_usada);
-    printf("=== CODIGO TRADUCIDO AL ESPANOL (C) ===\n\n%s\n", codigo_traducido);
-    printf("Tiempo de ejecucion en C (n=100 iteraciones): %f segundos\n", cpu_time);
-
-    // Guardar exclusivamente en ../resultados/resultado_ejercicio3.txt (subiendo desde c/)
-    FILE *fout = fopen("../resultados/resultado_ejercicio3.txt", "w");
-    if (!fout) fout = fopen("resultados/resultado_ejercicio3.txt", "w");
-
-    if (fout) {
-        fprintf(fout, "======================================================================\n");
-        fprintf(fout, "UNIVERSIDAD NACIONAL EXPERIMENTAL DE GUAYANA (UNEG)\n");
-        fprintf(fout, "LENGUAJES Y COMPILADORES - PERIODO LECTIVO 2026-II\n");
-        fprintf(fout, "PRUEBA DIAGNOSTICA - EJERCICIO 3: TRADUCTOR DE PALABRAS RESERVADAS DE C\n");
-        fprintf(fout, "Estudiante: Ana Orellana | Seccion: 01\n");
-        fprintf(fout, "Grupo: Equipo de Compiladores 2026-II\n");
-        fprintf(fout, "Eslogan: \"Comprender el codigo, construir soluciones.\"\n");
-        fprintf(fout, "======================================================================\n\n");
-        fprintf(fout, "--- SALIDA DE EJECUCION EN C (Memoria Dinamica) ---\n");
-        fprintf(fout, "Archivo cargado: %zu bytes\n\n%s\n", tam, codigo_traducido);
-        fprintf(fout, "Tiempo de ejecucion en C (n=100 iteraciones): %f segundos\n\n", cpu_time);
-        fclose(fout);
-        printf("-> Resultado de C guardado perfectamente en resultados/resultado_ejercicio3.txt\n");
-    } else {
-        printf("Aviso: No se pudo escribir en el archivo de resultados.\n");
+    // Abrir el archivo de destino en la carpeta de resultados
+    FILE *salida = fopen("../resultados/resultado_ejercicio3.txt", "w");
+    if (!salida) {
+        printf("Error: No se pudo crear el archivo de resultados.\n");
+        free(buffer);
+        return 1;
     }
 
-    free(codigo);
-    free(codigo_traducido);
+    fprintf(salida, "--- TRADUCCION DE PALABRAS RESERVADAS ---\n");
+    fprintf(salida, "Archivo analizado: ejercicio3.c\n");
+    fprintf(salida, "Memoria dinamica asignada: %ld bytes\n\n", size);
+
+    // 3. Analisis lexico (Separar el texto por tokens/palabras)
+    // Se definen los caracteres que separan las palabras en C (espacios, saltos, llaves, etc.)
+    char delimitadores[] = " \t\n\r(){}[];,+-*/=<>#\"&|!";
+    char *token = strtok(buffer, delimitadores);
+
+    int encontradas = 0;
+    
+    // Verificar cada palabra detectada contra nuestro diccionario
+    while (token != NULL) {
+        for (int i = 0; i < TOTAL_RES; i++) {
+            if (strcmp(token, reservadasC[i]) == 0) {
+                fprintf(salida, "Detectado: '%s' \t-> Traduccion: '%s'\n", token, reservadasESP[i]);
+                encontradas++;
+                break; 
+            }
+        }
+        token = strtok(NULL, delimitadores); // Pasar a la siguiente palabra
+    }
+
+    fprintf(salida, "\nTotal de palabras reservadas identificadas y traducidas: %d\n", encontradas);
+
+    // Liberar la memoria dinamica utilizada
+    free(buffer);
+    fclose(salida);
+    
+    printf("Analisis completado exitosamente. Revisa la carpeta resultados.\n");
     return 0;
 }

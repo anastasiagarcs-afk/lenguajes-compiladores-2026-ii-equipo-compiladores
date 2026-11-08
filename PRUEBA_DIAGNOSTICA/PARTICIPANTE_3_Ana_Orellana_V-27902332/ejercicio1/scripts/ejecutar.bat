@@ -1,5 +1,6 @@
 @echo off
-gcc -O2 c\ejercicio1.c -o c\ejercicio1.exe
-c\ejercicio1.exe
-python python\ejercicio1.py
+echo Ejecutando Ejercicio 1 (Python)...
+cd ..\python
+python ejercicio1.py
+echo Ejecucion completada. Revisa la carpeta resultados.
 pause
