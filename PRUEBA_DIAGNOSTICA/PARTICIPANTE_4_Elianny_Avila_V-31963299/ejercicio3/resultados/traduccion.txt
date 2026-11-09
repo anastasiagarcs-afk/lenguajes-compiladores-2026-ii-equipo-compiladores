@@ -1,0 +1,9 @@
+--- PALABRAS RESERVADAS ENCONTRADAS ---
+'int' -> 'entero'
+'int' -> 'entero'
+'if' -> 'si'
+'else' -> 'sino'
+'for' -> 'para'
+'int' -> 'entero'
+'while' -> 'mientras'
+'return' -> 'retornar'
