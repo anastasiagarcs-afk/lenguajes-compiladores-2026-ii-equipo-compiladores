@@ -1,0 +1,3 @@
+Lenguaje: Python
+n: 100
+Tiempo de generacion: 0.001394700 s

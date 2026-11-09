@@ -1,0 +1,3 @@
+Lenguaje: C
+n: 100
+Tiempo de generacion: 0.002000000 s
