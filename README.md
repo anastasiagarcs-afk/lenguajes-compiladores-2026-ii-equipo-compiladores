@@ -22,7 +22,7 @@
 | 1 | Fabiola García | V28694007 | 1 | **Líder** (Participante 1) | [`anastasiagarcs-afk`](https://github.com/anastasiagarcs-afk) |
 | 2 | Cesar Velasquez | V-26592592 | 3 | Participante 2 | [`Bboyjoker15`](https://github.com/Bboyjoker15) |
 | 3 | Ana Orellana | V-27902332 | 1 | Participante 3 |  [`AnaO21`](https://github.com/AnaO21) |
-| 4 | Elianny Avila | V-31963299 | 3 | Participante 4 | `<!-- PENDIENTE: usuario de GitHub -->` |
+| 4 | Elianny Avila | V-31963299 | 3 | Participante 4 | [`eliannysthefany-glitch`](https://github.com/eliannysthefany-glitch) |
 
 > La líder formaliza todas las entregas vía correo al profesor.
 
