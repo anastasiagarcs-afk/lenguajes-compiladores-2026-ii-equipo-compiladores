@@ -16,10 +16,12 @@ Ver `enlace_drive.txt` de esta carpeta.
 
 <!-- PENDIENTE: pegar aquí el enlace al video de defensa en Google Drive -->
 
-## Estructura
+## Descripción de la entrega:
 
-- `ejercicio1/` → `python/`, `c/`, `scripts/`, `resultados/`
-- `ejercicio2/` → `python/`, `c/`, `scripts/`, `resultados/`
-- `ejercicio3/` → `python/`, `c/`, `scripts/`, `resultados/`
+Ejercicio 1: Validador de movimientos de caballo en C++ con benchmark de 500 movimientos.
 
-> La prueba diagnóstica es **individual**: trabaja solo en tu carpeta.
+Ejercicio 2: Generador de polinomios (x+1)^n con Pascal usando memoria dinámica, implementado en Python y C, con cálculo paso a paso.
+
+Ejercicio 3: Traductor de palabras reservadas de C a español cargando archivos en memoria dinámica.
+
+Nota sobre scripts: Los scripts .sh fueron diseñados para ejecutarse en el entorno MSYS2 UCRT64 en Windows.
