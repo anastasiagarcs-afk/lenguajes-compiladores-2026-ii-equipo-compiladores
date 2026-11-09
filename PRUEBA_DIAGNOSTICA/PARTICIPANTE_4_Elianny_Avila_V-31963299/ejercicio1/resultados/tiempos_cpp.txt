@@ -1,7 +1,7 @@
 Lenguaje: C++
-n movimientos: 66
+n movimientos: 500
 repeticiones: 10
-tiempo total (s): 0.000108000
-tiempo promedio (s): 0.000010800
-tiempo promedio (ms): 0.010800000
+tiempo total (s): 0.001115000
+tiempo promedio (s): 0.000111500
+tiempo promedio (ms): 0.111500000
 resultado: CORRECTO
